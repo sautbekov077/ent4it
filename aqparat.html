@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Тест: Ақпарат тақырыбының негіздері</title>
+  <style>
+    :root {
+      --primary-color: #4285f4; /* Google Blue */
+      --secondary-color: #34a853; /* Google Green */
+      --accent-color: #ea4335; /* Google Red */
+      --warning-color: #fbbc05; /* Google Yellow */
+      --light-color: #f8f9fa;
+      --dark-color: #202124;
+      --text-color: #3c4043;
+      --border-radius-main: 12px;
+      --box-shadow-light: 0 6px 12px rgba(0, 0, 0, 0.08);
+      --box-shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #eef1f5; 
+      color: var(--text-color);
+      line-height: 1.7; 
+    }
+    
+    header {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 2.5rem 0; 
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      position: relative; 
+    }
+
+    header::before, header::after {
+      content: '';
+      position: absolute;
+      bottom: 10px;
+      width: 25px;
+      height: 25px;
+      background: white;
+      opacity: 0.1;
+      border-radius: 50%;
+      animation: float 5s ease-in-out infinite;
+    }
+    header::before { left: 15%; animation-delay: 0s; }
+    header::after { right: 15%; animation-delay: 2.5s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    h1 {
+      margin: 0;
+      font-size: 2.8rem; 
+      animation: fadeInDown 1s ease-out;
+      font-weight: 700; 
+    }
+    
+    .subtitle {
+      font-size: 1.3rem; 
+      margin-top: 10px;
+      opacity: 0.95;
+      animation: fadeInUp 1s ease-out 0.3s;
+      animation-fill-mode: backwards;
+    }
+    nav {
+        background-color: var(--dark-color);
+        padding: 1rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        position: sticky; 
+        top: 0;
+        z-index: 1000;
+    }
+    nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+    }
+    nav ul li {
+        display: inline-block;
+        margin: 0 15px;
+    }
+    nav ul li a {
+        color: var(--light-color);
+        text-decoration: none;
+        font-size: 1.1em;
+        padding: 10px 15px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    nav ul li a:hover, nav ul li a.active {
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 2.5rem auto;
+      padding: 0 20px;
+    }
+
+    .question-block {
+      background: white;
+      border-radius: var(--border-radius-main);
+      padding: 2.5rem;
+      box-shadow: var(--box-shadow-light);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: fadeInUp 0.5s ease;
+    }
+
+    .question-block p {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: var(--dark-color);
+    }
+
+    .answers {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 14px 28px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      border: none;
+      cursor: pointer;
+      font-size: 1.05rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+    
+    .btn:hover {
+      background-color: #3367d6;
+      transform: scale(1.02) translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+    
+    .btn-secondary {
+      background-color: var(--secondary-color);
+    }
+    .btn-secondary:hover {
+      background-color: #2b8445;
+    }
+
+    .result {
+      text-align: center;
+      margin-top: 3rem;
+      display: none;
+      animation: fadeInUp 0.8s ease;
+      background: white;
+      border-radius: var(--border-radius-main);
+      padding: 2.5rem;
+      box-shadow: var(--box-shadow-light);
+    }
+
+    .result-summary {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .result-score {
+      font-size: 4rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+    
+    .result-details {
+        font-size: 1.2rem;
+        color: #666;
+        margin-bottom: 2rem;
+    }
+
+    .result-text {
+      font-size: 1.2rem;
+      color: var(--dark-color);
+      max-width: 90%;
+      margin: 1.5rem auto;
+      font-style: italic;
+    }
+
+    .restart-btn {
+      margin-top: 2rem;
+    }
+
+    .review-section {
+        margin-top: 3rem;
+        text-align: left;
+    }
+
+    .review-section h3 {
+        color: var(--dark-color);
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .review-question {
+        background-color: #f8f9fa;
+        border-left: 5px solid var(--accent-color);
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+    }
+    
+    .review-question p {
+        margin: 0 0 0.5rem 0;
+        font-weight: 600;
+    }
+
+    .review-question .correct-answer {
+        color: var(--secondary-color);
+        font-weight: bold;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .progress-container {
+      width: 100%;
+      background-color: #e0e0e0;
+      border-radius: 50px;
+      margin: 1.5rem 0;
+      height: 10px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      border-radius: 50px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .question-counter {
+      text-align: right;
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2.2rem; }
+      .subtitle { font-size: 1.1rem;}
+      .question-block, .result { padding: 1.5rem; }
+      .question-block p { font-size: 1.1rem; }
+      .btn { padding: 12px 20px; font-size: 1rem; }
+      .result-score { font-size: 3rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1>Тест: Программалау негіздері 🚀</h1>
+      <p class="subtitle">Сұрақтарға жауап беріп, нәтижеңізді біліңіз!</p>
+    </div>
+  </header>
+   <nav>
+        <ul>
+            <li><a href="index.html">🏠 Басты бет</a></li>
+            <li><a href="test.html" class="active">📚 Тест тақырыптары</a></li>
+        </ul>
+    </nav>
+
+  <div class="container">
+    <div id="quiz-wrapper">
+        <div class="question-counter" id="questionCounter">1/10</div>
+        <div class="progress-container">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div id="quiz-container" class="question-block">
+          </div>
+    </div>
+    
+    <div class="result" id="result">
+      <h2 class="result-summary">Сіздің нәтижеңіз:</h2>
+      <div class="result-score" id="resultScore">0%</div>
+      <div class="result-details" id="resultDetails"></div>
+      <p class="result-text" id="resultText"></p>
+      <div id="reviewContainer" class="review-section"></div>
+      <button class="btn btn-secondary restart-btn" id="restartBtn">Тестті қайта бастау</button>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      { question: "Ақпараттың ең кіші өлшем бірлігі?", answers: [ { text: "Мегабайт", correct: false }, { text: "Бит", correct: true }, { text: "Байт", correct: false }, { text: "Килобайт", correct: false } ] },
+      { question: "Ақпарат дегеніміз не?", answers: [ { text: "Қоршаған орта туралы мәлімет", correct: true }, { text: "Сандардан тұратын мәлімет", correct: false }, { text: "Компьютер құрылғысы", correct: false }, { text: "Электрлі сигналдар", correct: false } ] },
+      { question: "1 байтта неше бит бар?", answers: [ { text: "1 бит", correct: false }, { text: "8 бит", correct: true }, { text: "4 бит", correct: false }, { text: "16 бит", correct: false } ] },
+      { question: "Ақпараттың негізгі қасиеті қайсысы?", answers: [ { text: "Ұзындығы", correct: false }, { text: "Анықтылығы", correct: true }, { text: "Салмағы", correct: false }, { text: "Мазмұны", correct: false } ] },
+      { question: "Ақпараттың өлшем бірліктері дұрыс реттелген қатарды көрсетіңіз", answers: [ { text: "Бит – Кбайт – Мбит – Гбайт", correct: false }, { text: "Гбайт – Мбайт – Кбайт – Байт", correct: false }, { text: "Байт – Бит – Кбайт – Мбайт", correct: false }, { text: "Бит – Байт – Кбайт – Мбайт", correct: true } ] }, // Исправлен правильный ответ
+      { question: "Ақпарат көздері қандай бола алады?", answers: [ { text: " Адам, табиғат, техника", correct: true }, { text: " Тек адам", correct: false }, { text: " Тек компьютер", correct: false }, { text: " Тек кітаптар", correct: false } ] },
+      { question: "Ақпаратты жеткізу арнасы дегеніміз не?", answers: [ { text: "Теледидар", correct: false }, { text: "Ақпарат тасымалданатын жол", correct: true }, { text: "Қоршаған орта", correct: false }, { text: "Кітап", correct: false } ] },
+      { question: "Адам ақпаратты қалай қабылдайды?", answers: [ { text: "Тек көру арқылы", correct: false }, { text: "Тек есту арқылы", correct: false }, { text: "Сезім мүшелері арқылы", correct: true }, { text: "Тек сөйлеу арқылы", correct: false } ] },
+      { question: "Ақпараттық процесс құрамына не кіреді?", answers: [ { text: "Жинау, өңдеу, сақтау, жеткізу, қолдану", correct: true }, { text: "Тек сақтау", correct: false }, { text: "Тек өңдеу", correct: false }, { text: "Тек көшіру", correct: false } ] },
+      { question: "Ақпаратты енгізу құрылғысы", answers: [ { text: "Принтер", correct: false }, { text: "Пернетақта", correct: true }, { text: "Динамик", correct: false }, { text: "Монитор", correct: false } ] },
+      { question: "Ақпарат алмасу процессі қалай аталады", answers: [ { text: "Кодтау", correct: false }, { text: "Коммуникация", correct: true }, { text: "Алгоритм", correct: false }, { text: "Архивтеу", correct: false } ] },
+      { question: "Ақпаратты сығу қалай аталады", answers: [ { text: "Архивтеу", correct: true }, { text: "Алгоритм", correct: false }, { text: "Шартты пішімдеу", correct: false }, { text: "Кодтау", correct: false } ] },
+      { question: "Ақпарат көзі мен қабылдаушы арасында не қажет?", answers: [ { text: "Сақтау құрылғысы", correct: false }, { text: "Принтер", correct: false }, { text: " Байланыс арнасы", correct: true }, { text: "Пернетақта", correct: false } ] },
+      { question: "Ақпараттық қауіпсіздік нені білдіреді?", answers: [ { text: "Ақпаратты рұқсатсыз пайдаланудан қорғау", correct: true }, { text: "Желідегі ойын ойнау", correct: false }, { text: " Веб-браузер орнату", correct: false }, { text: "Компьютерді өшіру", correct: false } ] },
+      { question: " Ақпарат көлемі дегеніміз не?", answers: [ { text: " Ақпарат көлемі дегеніміз не?", correct: false }, { text: "Ақпараттың өлшем бірлігі", correct: false }, { text: " Ақпарат көзі", correct: false }, { text: "Ақпараттың сақтау үшін қажет жады мөлшері", correct: true } ] },
+      { question: "Ақпаратты сақтаудың мысалын көрсет:", answers: [ { text: "Тыңдау", correct: false }, { text: "Қатты дискіге жазу", correct: true }, { text: "Есту", correct: false }, { text: "Көру", correct: false } ] },
+      { question: "Ақпаратты өңдеудің негізгі құрылғысы:", answers: [ { text: " Монитор", correct: false }, { text: "Пернетақта", correct: false }, { text: "Процессор", correct: true }, { text: " Тінтуір", correct: false } ] },
+      { question: "Ақпараттың дәлдігі дегеніміз не?", answers: [ { text: "Ақпараттың көлемі", correct: false }, { text: "Ақпаратты сақтау уақыты", correct: false }, { text: "Жүйеге ену уақыты", correct: false }, { text: "Нақты шындыққа сәйкес келуі", correct: true } ] },
+      { question: "Компьютер ақпаратты қандай түрде өңдейді?", answers: [ { text: "Графикалық", correct: false }, { text: " Тек мәтіндік", correct: false }, { text: "Сөйлеу", correct: false }, { text: "Сандық (екілік код)", correct: true } ] },
+      { question: "Ақпараттық технология дегеніміз не?", answers: [ { text: "Теледидар түрі", correct: false }, { text: "Ақпаратпен жұмыс істеу әдістері мен құралдарының жиынтығы", correct: true }, { text: " Математикалық формула", correct: false }, { text: "Электр құрылғысы", correct: false } ] },
+      { question: "Ақпараттың көзі дегеніміз не?", answers: [ { text: " Ақпаратты тудыратын нысан", correct: true }, { text: "Қатты диск", correct: false }, { text: "Экран", correct: false }, { text: "Бағдарлама", correct: false } ] },
+      { question: "Ақпаратты визуалды түрде қабылдау мысалы:", answers: [ { text: "Музыка тыңдау", correct: false }, { text: "Суретке қарау", correct: true }, { text: "Дыбыс жазу", correct: false }, { text: " Сөйлесу", correct: false } ] },
+      { question: " Компьютерде ақпаратты ең ұзақ сақтайтын құрылғы:", answers: [ { text: "Қатқыл диск", correct: true }, { text: "Жедел жады", correct: false }, { text: "Принтер", correct: false }, { text: "Монитор", correct: false } ] },
+      { question: "Ақпараттың өзектілігі дегеніміз не?", answers: [ { text: " Ол көп болса", correct: false }, { text: "Ол қазіргі уақытқа сәйкес болса", correct: true }, { text: "Ол түсініксіз болса", correct: false }, { text: "Ол үлкен көлемде болса", correct: false } ] },
+      { question: " Ақпараттың толықтығы нені білдіреді?", answers: [ { text: "Ақпаратты сақтау әдісін", correct: false }, { text: "Ақпараттың кодталуын", correct: false }, { text: "Барлық қажетті мәліметтің қамтылуын", correct: true }, { text: "Жинақталуын", correct: false } ] },
+      { question: " Компьютер не үшін ақпаратты екілік жүйеде өңдейді?", answers: [ { text: " Себебі ол тез", correct: false }, { text: "Себебі ол тек 0 мен 1-ді таниды", correct: true }, { text: " Себебі ол дыбысты жақсы көреді", correct: false }, { text: "Себебі ол үш таңбалы код қолданады", correct: false } ] },
+      { question: "Ақпаратты кодтау не үшін қажет?", answers: [ { text: "Әдемі ету үшін", correct: false }, { text: "Қателіктерді қосу үшін", correct: false }, { text: "Жою үшін", correct: false }, { text: "Түсінікті болу үшін", correct: true } ] },
+      { question: " Ақпаратты сақтау мысалы:", answers: [ { text: "Эхо тыңдау", correct: false }, { text: " Ән айту", correct: false }, { text: " Құжатты флешкаға жазу", correct: true }, { text: " Мониторда бейнелеу", correct: false } ] },
+      { question: "Ақпарат тасымалдау құралын таңдаңыз:", answers: [ { text: "Принтер", correct: false }, { text: " Интернет", correct: true }, { text: "Тінтуір", correct: false }, { text: " Монитор", correct: false } ] },
+      { question: "Ақпаратты сақтау құрылғыларына не жатады?", answers: [ { text: "Қатты диск, флешка, CD/DVD", correct: true }, { text: "Монитор, пернетақта", correct: false }, { text: "Принтер, сканер", correct: false }, { text: "Микрофон, колонка", correct: false } ] },
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let incorrectAnswers = [];
+
+    const quizWrapper = document.getElementById("quiz-wrapper");
+    const quizContainer = document.getElementById("quiz-container");
+    const resultBlock = document.getElementById("result");
+    const resultScore = document.getElementById("resultScore");
+    const resultDetails = document.getElementById("resultDetails");
+    const resultText = document.getElementById("resultText");
+    const reviewContainer = document.getElementById("reviewContainer");
+    const restartBtn = document.getElementById("restartBtn");
+    const questionCounter = document.getElementById("questionCounter");
+    const progressBar = document.getElementById("progressBar");
+
+    // Функция для перемешивания массива (алгоритм Фишера-Йейтса)
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    function showQuestion(index) {
+      const q = questions[index];
+      questionCounter.textContent = `${index + 1}/${questions.length}`;
+      progressBar.style.width = `${((index + 1) / questions.length) * 100}%`;
+      
+      quizContainer.innerHTML = `<p>${q.question}</p><div class="answers"></div>`;
+      const answersBlock = quizContainer.querySelector(".answers");
+
+      q.answers.forEach(ans => {
+        const btn = document.createElement("button");
+        btn.className = "btn";
+        btn.textContent = ans.text;
+        btn.onclick = () => handleAnswer(ans.correct, q);
+        answersBlock.appendChild(btn);
+      });
+    }
+
+    function handleAnswer(isCorrect, question) {
+      if (isCorrect) {
+        score++;
+      } else {
+        incorrectAnswers.push(question);
+      }
+      currentQuestion++;
+
+      if (currentQuestion < questions.length) {
+        showQuestion(currentQuestion);
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      quizWrapper.style.display = "none";
+      resultBlock.style.display = "block";
+      
+      const percent = Math.round((score / questions.length) * 100);
+      
+      // Анимация счета
+      let currentPercent = 0;
+      const interval = setInterval(() => {
+        if (currentPercent >= percent) {
+          clearInterval(interval);
+        }
+        resultScore.textContent = currentPercent + "%";
+        currentPercent++;
+      }, 20);
+
+      resultDetails.textContent = `${questions.length} сұрақтың ${score} дұрыс`;
+
+      if (percent >= 80) {
+        resultText.textContent = "Керемет! Сіз ақпарат тақырыбыныңнегіздерін жақсы білесіз! 🎉";
+        resultScore.style.color = 'var(--secondary-color)';
+      } else if (percent >= 50) {
+        resultText.textContent = "Жақсы! Бірақ әлі көп нәрсені үйрену керек. 👍";
+        resultScore.style.color = 'var(--warning-color)';
+      } else {
+        resultText.textContent = "Қайталап көріңіз, материалды жақсырақ меңгеру керек. 💪";
+        resultScore.style.color = 'var(--accent-color)';
+      }
+      
+      displayIncorrectAnswers();
+    }
+
+    function displayIncorrectAnswers() {
+        reviewContainer.innerHTML = ''; // Очистка предыдущих результатов
+        if (incorrectAnswers.length > 0) {
+            const reviewHeader = document.createElement('h3');
+            reviewHeader.textContent = 'Қатемен жұмыс:';
+            reviewContainer.appendChild(reviewHeader);
+
+            incorrectAnswers.forEach(q => {
+                const correctAnswer = q.answers.find(ans => ans.correct).text;
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'review-question';
+                questionDiv.innerHTML = `
+                    <p>${q.question}</p>
+                    <span class="correct-answer">Дұрыс жауап: ${correctAnswer}</span>
+                `;
+                reviewContainer.appendChild(questionDiv);
+            });
+        }
+    }
+
+
+    restartBtn.addEventListener("click", () => {
+      currentQuestion = 0;
+      score = 0;
+      incorrectAnswers = [];
+      quizWrapper.style.display = "block";
+      resultBlock.style.display = "none";
+      shuffleArray(questions); // Снова перемешиваем для нового теста
+      showQuestion(currentQuestion);
+    });
+
+    // Инициализация
+    shuffleArray(questions);
+    showQuestion(currentQuestion);
+  </script>
+</body>
+</html>

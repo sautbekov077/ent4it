@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Категории тестов - ҰБТ Информатика 🚀</title>
+    <style>
+        :root {
+            --primary-color: #4285f4; /* Google Blue */
+            --secondary-color: #34a853; /* Google Green */
+            --accent-color: #ea4335; /* Google Red */
+            --warning-color: #fbbc05; /* Google Yellow */
+            --light-color: #f8f9fa;
+            --dark-color: #202124;
+            --text-color: #3c4043;
+            --border-radius-main: 12px;
+            --box-shadow-light: 0 6px 12px rgba(0, 0, 0, 0.08);
+            --box-shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #eef1f5; 
+            color: var(--text-color);
+            line-height: 1.7; 
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2.5rem 0; 
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: relative; 
+        }
+
+        header::before, header::after {
+            content: '';
+            position: absolute;
+            bottom: 10px;
+            width: 25px;
+            height: 25px;
+            background: white;
+            opacity: 0.1;
+            border-radius: 50%;
+            animation: float 5s ease-in-out infinite;
+        }
+        header::before { left: 15%; animation-delay: 0s; }
+        header::after { right: 15%; animation-delay: 2.5s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.8rem; 
+            animation: fadeInDown 1s ease-out;
+            font-weight: 700; 
+        }
+        
+        .subtitle {
+            font-size: 1.3rem; 
+            margin-top: 10px;
+            opacity: 0.95;
+            animation: fadeInUp 1s ease-out 0.3s;
+            animation-fill-mode: backwards;
+        }
+
+        nav {
+            background-color: var(--dark-color);
+            padding: 1rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            position: sticky; 
+            top: 0;
+            z-index: 1000;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+        nav ul li {
+            display: inline-block;
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: var(--light-color);
+            text-decoration: none;
+            font-size: 1.1em;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        nav ul li a:hover, nav ul li a.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2.5rem auto; 
+            padding: 0 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 14px 28px; 
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            margin-top: 1.2rem;
+            border: none;
+            cursor: pointer;
+            font-size: 1.05rem; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .btn:hover {
+            background-color: #3367d6;
+            transform: scale(1.05) translateY(-2px); 
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+        
+        .btn-accent {
+            background-color: var(--accent-color);
+        }
+        
+        .btn-accent:hover {
+            background-color: #d33426;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+        }
+        .btn-secondary:hover {
+            background-color: #2b8445;
+        }
+
+        .btn-warning {
+            background-color: var(--warning-color);
+            color: var(--dark-color);
+        }
+        .btn-warning:hover {
+            background-color: #e8a317;
+        }
+        
+        .categories-intro {
+            text-align: center;
+            padding: 2rem 0;
+            margin-bottom: 3rem;
+        }
+
+        .categories-intro h2 {
+            font-size: 2.5rem;
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+        }
+
+        .categories-intro p {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .difficulty-filter {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 12px 24px;
+            border: 2px solid var(--primary-color);
+            background: white;
+            color: var(--primary-color);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); 
+            gap: 2.5rem; 
+            margin-bottom: 4rem;
+        }
+        
+        .category-card {
+            background: white;
+            border-radius: var(--border-radius-main);
+            overflow: hidden;
+            box-shadow: var(--box-shadow-light);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex; 
+            flex-direction: column;
+            position: relative;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-8px) scale(1.02); 
+            box-shadow: var(--box-shadow-heavy);
+        }
+
+        .difficulty-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        .difficulty-beginner {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .difficulty-intermediate {
+            background: var(--warning-color);
+            color: var(--dark-color);
+        }
+
+        .difficulty-advanced {
+            background: var(--accent-color);
+            color: white;
+        }
+        
+        .category-image {
+            height: 200px; 
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.4s ease;
+            position: relative;
+        }
+
+        .category-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(66, 133, 244, 0.1), rgba(52, 168, 83, 0.1));
+            z-index: 1;
+        }
+
+        .category-card:hover .category-image {
+            transform: scale(1.1); 
+        }
+        
+        .category-info {
+            padding: 2rem; 
+            flex-grow: 1; 
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .category-info h3 {
+            margin-top: 0;
+            margin-bottom: 1rem; 
+            color: var(--primary-color);
+            font-size: 1.5rem; 
+        }
+
+        .category-description {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .category-stats {
+            display: flex;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+            color: #666;
+            flex-wrap: wrap;
+        }
+
+        .category-stat {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        footer {
+            background-color: var(--dark-color);
+            color: var(--light-color); 
+            text-align: center;
+            padding: 3rem 0; 
+            margin-top: 4rem; 
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background-color: var(--primary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            border-radius: 50%;
+            text-decoration: none;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            z-index: 999;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .coming-soon {
+            opacity: 0.7;
+            position: relative;
+        }
+
+        .coming-soon::after {
+            content: 'Скоро';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            z-index: 10;
+        }
+        
+        @media (max-width: 992px) { 
+             nav ul li { margin: 0 10px; }
+             nav ul li a { font-size: 1em; }
+             .category-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+             }
+        }
+
+        @media (max-width: 768px) { 
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            .subtitle { font-size: 1.1rem;}
+
+            .categories-intro h2 {
+                font-size: 2rem;
+            }
+
+            .difficulty-filter {
+                gap: 0.5rem;
+            }
+
+            .filter-btn {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+
+            nav { position: static; } 
+            nav ul { display: flex; flex-direction: column; align-items: center; }
+            nav ul li { margin: 5px 0; }
+
+            .category-stats {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Тест тақырыптары 📚</h1>
+            <p class="subtitle">Информатика бағыттарын таңдаңыз</p>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">🏠 Басты бет</a></li>
+            <li><a href="#" class="active">📚 Тест тақырыптары</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <section class="categories-intro">
+            <h2>Тестілеу түрін таңда 🎯</h2>
+            <p>Программалаудың негіздерінен бастап, күрделі тақырыптарға дейін - дайындық деңгейіңізге сәйкес тестілерді табыңыз.</p>
+        </section>
+
+        <div class="category-grid" id="categoryGrid">
+            <div class="category-card" data-level="beginner">
+                <div class="difficulty-badge difficulty-beginner">Жеңіл</div>
+                <div class="category-image" style="background-image: url('https://plus.unsplash.com/premium_photo-1664297642487-95b384f25b96?q=80&w=1998&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
+                <div class="category-info">
+                    <h3>Ақпарат</h3>
+                    <p class="category-description">Ақпараттық технологиялар мен жүйелердің негіздері.</p>
+                    <div class="category-stats">
+                        <div class="category-stat">
+                            <span>📝</span>
+                            <span>30 тест</span>
+                        </div>
+                    </div>
+                    <a href="aqparat.html" class="btn btn-secondary">Бастау</a>
+                </div>
+            </div>
+
+            <div class="category-card" data-level="intermediate">
+                <div class="difficulty-badge difficulty-intermediate">Орташа</div>
+                <div class="category-image" style="background-image: url('https://plus.unsplash.com/premium_photo-1682145181120-73cfdfc8a36d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
+                <div class="category-info">
+                    <h3>Компьютерлік желілер</h3>
+                    <p class="category-description">Желілік технологияларды тереңдетіп оқу: TCP/IP, маршрутизация, протоколдар, желілердің қауіпсіздігі және әкімшілік ету.</p>
+                    <div class="category-stats">
+                        <div class="category-stat">
+                            <span>📝</span>
+                            <span>30 тест</span>
+                        </div>
+                    </div>
+                    <a href="zheli.html" class="btn btn-secondary">Бастау</a>
+                </div>
+            </div>
+
+            <div class="category-card" data-level="advanced">
+                <div class="difficulty-badge difficulty-advanced">Қиын</div>
+                <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=70');"></div>
+                <div class="category-info">
+                    <h3>Деректер қоры</h3>
+                    <p class="category-description">Реляциялық және NoSQL деректер базалары, SQL сұраныстары, индексация, транзакциялар және өнімділікті оңтайландыру.</p>
+                    <div class="category-stats">
+                        <div class="category-stat">
+                            <span>📝</span>
+                            <span>30 тест</span>
+                        </div>
+                    </div>
+                    <a href="derekter.html" class="btn btn-secondary">Бастау</a>
+                </div>
+            </div>
+
+            <div class="category-card" data-level="advanced">
+                <div class="difficulty-badge difficulty-advanced">Қиын</div>
+                <div class="category-image" style="background-image: url('https://plus.unsplash.com/premium_photo-1701179596614-9c64f50cda76?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
+                <div class="category-info">
+                    <h3>Ақпараттық қауіпсіздік</h3>
+                    <p class="category-description">Киберқауіпсіздік, шабуыл түрлері, деректерді қорғау, криптография және этикалық хакинг - ИБ бойынша болашақ мамандар үшін.</p>
+                    <div class="category-stats">
+                        <div class="category-stat">
+                            <span>📝</span>
+                            <span>30 тест</span>
+                        </div>
+                    </div>
+                    <a href="cyber.html" class="btn btn-secondary">Бастау</a>
+                </div>
+            </div>
+
+            <div class="category-card" data-level="intermediate">
+                <div class="difficulty-badge difficulty-intermediate">Орташа</div>
+                <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=70');"></div>
+                <div class="category-info">
+                    <h3>Веб-сайттар</h3>
+                    <p class="category-description">HTML, CSS, JavaScript, фреймворки, серверлік әзірлеу және заманауи веб-қосымшаларды жасау.</p>
+                    <div class="category-stats">
+                        <div class="category-stat">
+                            <span>📝</span>
+                            <span>30 тест</span>
+                        </div>
+                    </div>
+                    <a href="web.html" class="btn btn-secondary">Бастау</a>
+                </div>
+            </div>
+
+            <div class="category-card coming-soon" data-level="advanced">
+                <div class="difficulty-badge difficulty-advanced">Қиын</div>
+                <div class="category-image" style="background-image: url('https://plus.unsplash.com/premium_photo-1664297939846-330cfd170bae?q=80&w=2055&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
+                <div class="category-info">
+                    <h3>Машиналық оқыту</h3>
+                    <p class="category-description">Жасанды интеллект, нейрондық желілер, деректерді талдау және нақты тапсырмаларды шешу.</p>
+                    <div class="category-stats">
+                        <div class="category-stat">
+                            <span>📝</span>
+                            <span>30 тест</span>
+                        </div>
+                    </div>
+                    <a href="ai.html" class="btn btn-warning">Жақында қолжетімді</a>
+                </div>
+            </div>
+
+            <div class="category-card" data-level="beginner">
+                <div class="difficulty-badge difficulty-beginner">Жеңіл</div>
+                <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1677442135703-1787eea5ce01?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
+                <div class="category-info">
+                    <h3>Логика</h3>
+                    <p class="category-description">Логикалық ойлау, проблемаларды шешу және алгоритмдерді түсіну.</p>
+                    <div class="category-stats">
+                        <div class="category-stat">
+                            <span>📝</span>
+                            <span>30 тест</span>
+                        </div>
+                    </div>
+                    <a href="logic.html" class="btn btn-secondary">Бастау</a>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="index.html" class="btn">← Басты бетке оралу</a>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <p>© 2024 - <span id="currentYear"></span> ҰБТ Информатика бойынша тесттер. Барлық құқықтар қорғалған.</p>
+            <p>❤️-пен жасалған, болашақ IT мамандар үшін</p>
+        </div>
+    </footer>
+
+    <script>
+        // Обновляем текущий год
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
