@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Тест: Он алтылық санау жүйесі</title>
+  <style>
+    :root {
+      --primary-color: #4285f4;
+      --secondary-color: #34a853;
+      --accent-color: #ea4335;
+      --warning-color: #fbbc05;
+      --light-color: #f8f9fa;
+      --dark-color: #202124;
+      --text-color: #3c4043;
+      --border-radius-main: 12px;
+      --box-shadow-light: 0 6px 12px rgba(0, 0, 0, 0.08);
+      --box-shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #eef1f5; 
+      color: var(--text-color);
+      line-height: 1.7; 
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 2.5rem 0; 
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      position: relative; 
+    }
+
+    header::before, header::after {
+      content: '';
+      position: absolute;
+      bottom: 10px;
+      width: 25px;
+      height: 25px;
+      background: white;
+      opacity: 0.1;
+      border-radius: 50%;
+      animation: float 5s ease-in-out infinite;
+    }
+    header::before { left: 15%; animation-delay: 0s; }
+    header::after { right: 15%; animation-delay: 2.5s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2.8rem; 
+      animation: fadeInDown 1s ease-out;
+      font-weight: 700; 
+    }
+
+    .subtitle {
+      font-size: 1.3rem; 
+      margin-top: 10px;
+      opacity: 0.95;
+      animation: fadeInUp 1s ease-out 0.3s;
+      animation-fill-mode: backwards;
+    }
+
+    nav {
+        background-color: var(--dark-color);
+        padding: 1rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        position: sticky; 
+        top: 0;
+        z-index: 1000;
+    }
+    nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+    }
+    nav ul li {
+        display: inline-block;
+        margin: 0 15px;
+    }
+    nav ul li a {
+        color: var(--light-color);
+        text-decoration: none;
+        font-size: 1.1em;
+        padding: 10px 15px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    nav ul li a:hover, nav ul li a.active {
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 2.5rem auto;
+      padding: 0 20px;
+    }
+
+    .question-block {
+      background: white;
+      border-radius: var(--border-radius-main);
+      padding: 2.5rem;
+      box-shadow: var(--box-shadow-light);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: fadeInUp 0.5s ease;
+    }
+
+    .question-block p {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: var(--dark-color);
+    }
+
+    .answers {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 14px 28px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      border: none;
+      cursor: pointer;
+      font-size: 1.05rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+
+    .btn:hover {
+      background-color: #3367d6;
+      transform: scale(1.02) translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+
+    .btn-secondary {
+      background-color: var(--secondary-color);
+    }
+    .btn-secondary:hover {
+      background-color: #2b8445;
+    }
+
+    .result {
+      text-align: center;
+      margin-top: 3rem;
+      display: none;
+      animation: fadeInUp 0.8s ease;
+      background: white;
+      border-radius: var(--border-radius-main);
+      padding: 2.5rem;
+      box-shadow: var(--box-shadow-light);
+    }
+
+    .result-summary {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .result-score {
+      font-size: 4rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+
+    .result-details {
+        font-size: 1.2rem;
+        color: #666;
+        margin-bottom: 2rem;
+    }
+
+    .result-text {
+      font-size: 1.2rem;
+      color: var(--dark-color);
+      max-width: 90%;
+      margin: 1.5rem auto;
+      font-style: italic;
+    }
+
+    .restart-btn {
+      margin-top: 2rem;
+    }
+
+    .review-section {
+        margin-top: 3rem;
+        text-align: left;
+    }
+
+    .review-section h3 {
+        color: var(--dark-color);
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .review-question {
+        background-color: #f8f9fa;
+        border-left: 5px solid var(--accent-color);
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+    }
+
+    .review-question p {
+        margin: 0 0 0.5rem 0;
+        font-weight: 600;
+    }
+
+    .review-question .correct-answer {
+        color: var(--secondary-color);
+        font-weight: bold;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .progress-container {
+      width: 100%;
+      background-color: #e0e0e0;
+      border-radius: 50px;
+      margin: 1.5rem 0;
+      height: 10px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      border-radius: 50px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .question-counter {
+      text-align: right;
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2.2rem; }
+      .subtitle { font-size: 1.1rem;}
+      .question-block, .result { padding: 1.5rem; }
+      .question-block p { font-size: 1.1rem; }
+      .btn { padding: 12px 20px; font-size: 1rem; }
+      .result-score { font-size: 3rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1>Тест: Он алтылық санау жүйесі 🔠</h1>
+      <p class="subtitle">Он алтылық жүйені ондық жүйеге түрлендіру</p>
+    </div>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">🏠 Басты бет</a></li>
+      <li><a href="test.html" class="active">📚 Тест тақырыптары</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <div id="quiz-wrapper">
+      <div class="question-counter" id="questionCounter">1/30</div>
+      <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <div id="quiz-container" class="question-block"></div>
+    </div>
+
+    <div class="result" id="result">
+      <h2 class="result-summary">Сіздің нәтижеңіз:</h2>
+      <div class="result-score" id="resultScore">0%</div>
+      <div class="result-details" id="resultDetails"></div>
+      <p class="result-text" id="resultText"></p>
+      <div id="reviewContainer" class="review-section"></div>
+      <button class="btn btn-secondary restart-btn" id="restartBtn">Тестті қайта бастау</button>
+    </div>
+  </div>
+
+  <script>
+    // Функция для генерации случайного шестнадцатеричного числа
+    function generateHexNumber(minDigits, maxDigits) {
+      const digits = Math.floor(Math.random() * (maxDigits - minDigits + 1)) + minDigits;
+      const hexChars = '0123456789ABCDEF';
+      let hex = '';
+
+      for (let i = 0; i < digits; i++) {
+        hex += hexChars[Math.floor(Math.random() * 16)];
+      }
+
+      // Убедимся, что первый символ не 0
+      if (hex[0] === '0' && digits > 1) {
+        hex = hexChars[1 + Math.floor(Math.random() * 15)] + hex.substring(1);
+      }
+
+      return hex;
+    }
+
+    // Функция для преобразования шестнадцатеричного числа в десятичное
+    function hexToDecimal(hex) {
+      return parseInt(hex, 16);
+    }
+
+    // Функция для генерации неправильных ответов
+    function generateWrongAnswers(correctAnswer, count) {
+      const wrongAnswers = new Set();
+      const variations = [
+        correctAnswer + 1,
+        correctAnswer - 1,
+        correctAnswer + 2,
+        correctAnswer - 2,
+        Math.floor(correctAnswer * 1.5),
+        Math.floor(correctAnswer * 0.5),
+        correctAnswer + 10,
+        correctAnswer - 10,
+        correctAnswer + 16,
+        correctAnswer - 16,
+      ];
+
+      variations.forEach(v => {
+        if (v > 0 && v !== correctAnswer) {
+          wrongAnswers.add(v);
+        }
+      });
+
+      while (wrongAnswers.size < count) {
+        const offset = Math.floor(Math.random() * 30) - 15;
+        const newAnswer = correctAnswer + offset;
+        if (newAnswer > 0 && newAnswer !== correctAnswer) {
+          wrongAnswers.add(newAnswer);
+        }
+      }
+
+      return Array.from(wrongAnswers).slice(0, count);
+    }
+
+    // Генерация 30 вопросов
+    function generateQuestions(count) {
+      const questions = [];
+      for (let i = 0; i < count; i++) {
+        const hex = generateHexNumber(2, 3);
+        const decimal = hexToDecimal(hex);
+        const wrongAnswers = generateWrongAnswers(decimal, 3);
+
+        const allAnswers = [
+          { text: decimal.toString(), correct: true },
+          { text: wrongAnswers[0].toString(), correct: false },
+          { text: wrongAnswers[1].toString(), correct: false },
+          { text: wrongAnswers[2].toString(), correct: false }
+        ];
+
+        // Перемешиваем ответы
+        shuffleArray(allAnswers);
+
+        questions.push({
+          question: `${hex}₁₆ он алтылық санын ондық санау жүйесіне аударыңыз`,
+          answers: allAnswers,
+          hex: hex,
+          decimal: decimal
+        });
+      }
+      return questions;
+    }
+
+    let questions = generateQuestions(30);
+    let currentQuestion = 0;
+    let score = 0;
+    let incorrectAnswers = [];
+
+    const quizWrapper = document.getElementById("quiz-wrapper");
+    const quizContainer = document.getElementById("quiz-container");
+    const resultBlock = document.getElementById("result");
+    const resultScore = document.getElementById("resultScore");
+    const resultDetails = document.getElementById("resultDetails");
+    const resultText = document.getElementById("resultText");
+    const reviewContainer = document.getElementById("reviewContainer");
+    const restartBtn = document.getElementById("restartBtn");
+    const questionCounter = document.getElementById("questionCounter");
+    const progressBar = document.getElementById("progressBar");
+
+    // Функция для перемешивания массива
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function showQuestion(index) {
+      const q = questions[index];
+      questionCounter.textContent = `${index + 1}/${questions.length}`;
+      progressBar.style.width = `${((index + 1) / questions.length) * 100}%`;
+
+      quizContainer.innerHTML = `<p>${q.question}</p><div class="answers"></div>`;
+      const answersBlock = quizContainer.querySelector(".answers");
+
+      q.answers.forEach(ans => {
+        const btn = document.createElement("button");
+        btn.className = "btn";
+        btn.textContent = ans.text;
+        btn.onclick = () => handleAnswer(ans.correct, q);
+        answersBlock.appendChild(btn);
+      });
+    }
+
+    function handleAnswer(isCorrect, question) {
+      if (isCorrect) {
+        score++;
+      } else {
+        incorrectAnswers.push(question);
+      }
+      currentQuestion++;
+
+      if (currentQuestion < questions.length) {
+        showQuestion(currentQuestion);
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      quizWrapper.style.display = "none";
+      resultBlock.style.display = "block";
+
+      const percent = Math.round((score / questions.length) * 100);
+
+      // Анимация счета
+      let currentPercent = 0;
+      const interval = setInterval(() => {
+        if (currentPercent >= percent) {
+          clearInterval(interval);
+        }
+        resultScore.textContent = currentPercent + "%";
+        currentPercent++;
+      }, 20);
+
+      resultDetails.textContent = `${questions.length} сұрақтың ${score} дұрыс`;
+
+      if (percent >= 80) {
+        resultText.textContent = "Керемет! Сіз он алтылық санау жүйесін жақсы білесіз! 🎉";
+        resultScore.style.color = 'var(--secondary-color)';
+      } else if (percent >= 50) {
+        resultText.textContent = "Жақсы! Бірақ әлі көп нәрсені үйрену керек. 👍";
+        resultScore.style.color = 'var(--warning-color)';
+      } else {
+        resultText.textContent = "Қайталап көріңіз, материалды жақсырақ меңгеру керек. 💪";
+        resultScore.style.color = 'var(--accent-color)';
+      }
+
+      displayIncorrectAnswers();
+    }
+
+    function displayIncorrectAnswers() {
+      reviewContainer.innerHTML = '';
+      if (incorrectAnswers.length > 0) {
+        const reviewHeader = document.createElement('h3');
+        reviewHeader.textContent = 'Қатемен жұмыс:';
+        reviewContainer.appendChild(reviewHeader);
+
+        incorrectAnswers.forEach(q => {
+          const correctAnswer = q.answers.find(ans => ans.correct).text;
+          const questionDiv = document.createElement('div');
+          questionDiv.className = 'review-question';
+          questionDiv.innerHTML = `
+            <p>${q.question}</p>
+            <span class="correct-answer">Дұрыс жауап: ${correctAnswer} (${q.hex}₁₆ = ${q.decimal}₁₀)</span>
+          `;
+          reviewContainer.appendChild(questionDiv);
+        });
+      }
+    }
+
+    restartBtn.addEventListener("click", () => {
+      currentQuestion = 0;
+      score = 0;
+      incorrectAnswers = [];
+      questions = generateQuestions(30);
+      quizWrapper.style.display = "block";
+      resultBlock.style.display = "none";
+      showQuestion(currentQuestion);
+    });
+
+    // Инициализация
+    showQuestion(currentQuestion);
+  </script>
+</body>
+</html>

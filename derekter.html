@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Тест: Ақпарат тақырыбының негіздері</title>
+  <style>
+    :root {
+      --primary-color: #4285f4; /* Google Blue */
+      --secondary-color: #34a853; /* Google Green */
+      --accent-color: #ea4335; /* Google Red */
+      --warning-color: #fbbc05; /* Google Yellow */
+      --light-color: #f8f9fa;
+      --dark-color: #202124;
+      --text-color: #3c4043;
+      --border-radius-main: 12px;
+      --box-shadow-light: 0 6px 12px rgba(0, 0, 0, 0.08);
+      --box-shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #eef1f5; 
+      color: var(--text-color);
+      line-height: 1.7; 
+    }
+    
+    header {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 2.5rem 0; 
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      position: relative; 
+    }
+
+    header::before, header::after {
+      content: '';
+      position: absolute;
+      bottom: 10px;
+      width: 25px;
+      height: 25px;
+      background: white;
+      opacity: 0.1;
+      border-radius: 50%;
+      animation: float 5s ease-in-out infinite;
+    }
+    header::before { left: 15%; animation-delay: 0s; }
+    header::after { right: 15%; animation-delay: 2.5s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    h1 {
+      margin: 0;
+      font-size: 2.8rem; 
+      animation: fadeInDown 1s ease-out;
+      font-weight: 700; 
+    }
+    
+    .subtitle {
+      font-size: 1.3rem; 
+      margin-top: 10px;
+      opacity: 0.95;
+      animation: fadeInUp 1s ease-out 0.3s;
+      animation-fill-mode: backwards;
+    }
+    nav {
+        background-color: var(--dark-color);
+        padding: 1rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        position: sticky; 
+        top: 0;
+        z-index: 1000;
+    }
+    nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+    }
+    nav ul li {
+        display: inline-block;
+        margin: 0 15px;
+    }
+    nav ul li a {
+        color: var(--light-color);
+        text-decoration: none;
+        font-size: 1.1em;
+        padding: 10px 15px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    nav ul li a:hover, nav ul li a.active {
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 2.5rem auto;
+      padding: 0 20px;
+    }
+
+    .question-block {
+      background: white;
+      border-radius: var(--border-radius-main);
+      padding: 2.5rem;
+      box-shadow: var(--box-shadow-light);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: fadeInUp 0.5s ease;
+    }
+
+    .question-block p {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: var(--dark-color);
+    }
+
+    .answers {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 14px 28px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      border: none;
+      cursor: pointer;
+      font-size: 1.05rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+    
+    .btn:hover {
+      background-color: #3367d6;
+      transform: scale(1.02) translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+    
+    .btn-secondary {
+      background-color: var(--secondary-color);
+    }
+    .btn-secondary:hover {
+      background-color: #2b8445;
+    }
+
+    .result {
+      text-align: center;
+      margin-top: 3rem;
+      display: none;
+      animation: fadeInUp 0.8s ease;
+      background: white;
+      border-radius: var(--border-radius-main);
+      padding: 2.5rem;
+      box-shadow: var(--box-shadow-light);
+    }
+
+    .result-summary {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .result-score {
+      font-size: 4rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+    
+    .result-details {
+        font-size: 1.2rem;
+        color: #666;
+        margin-bottom: 2rem;
+    }
+
+    .result-text {
+      font-size: 1.2rem;
+      color: var(--dark-color);
+      max-width: 90%;
+      margin: 1.5rem auto;
+      font-style: italic;
+    }
+
+    .restart-btn {
+      margin-top: 2rem;
+    }
+
+    .review-section {
+        margin-top: 3rem;
+        text-align: left;
+    }
+
+    .review-section h3 {
+        color: var(--dark-color);
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .review-question {
+        background-color: #f8f9fa;
+        border-left: 5px solid var(--accent-color);
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+    }
+    
+    .review-question p {
+        margin: 0 0 0.5rem 0;
+        font-weight: 600;
+    }
+
+    .review-question .correct-answer {
+        color: var(--secondary-color);
+        font-weight: bold;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .progress-container {
+      width: 100%;
+      background-color: #e0e0e0;
+      border-radius: 50px;
+      margin: 1.5rem 0;
+      height: 10px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      border-radius: 50px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .question-counter {
+      text-align: right;
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2.2rem; }
+      .subtitle { font-size: 1.1rem;}
+      .question-block, .result { padding: 1.5rem; }
+      .question-block p { font-size: 1.1rem; }
+      .btn { padding: 12px 20px; font-size: 1rem; }
+      .result-score { font-size: 3rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1>Тест: Программалау негіздері 🚀</h1>
+      <p class="subtitle">Сұрақтарға жауап беріп, нәтижеңізді біліңіз!</p>
+    </div>
+  </header>
+   <nav>
+        <ul>
+            <li><a href="index.html">🏠 Басты бет</a></li>
+            <li><a href="test.html" class="active">📚 Тест тақырыптары</a></li>
+        </ul>
+    </nav>
+
+  <div class="container">
+    <div id="quiz-wrapper">
+        <div class="question-counter" id="questionCounter">1/10</div>
+        <div class="progress-container">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div id="quiz-container" class="question-block">
+          </div>
+    </div>
+    
+    <div class="result" id="result">
+      <h2 class="result-summary">Сіздің нәтижеңіз:</h2>
+      <div class="result-score" id="resultScore">0%</div>
+      <div class="result-details" id="resultDetails"></div>
+      <p class="result-text" id="resultText"></p>
+      <div id="reviewContainer" class="review-section"></div>
+      <button class="btn btn-secondary restart-btn" id="restartBtn">Тестті қайта бастау</button>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {"question": "Кестелер арқылы құрастырылған деректер қорының түрі не деп аталады?","answers": [{ "text": "Реляциялық", "correct": true },{ "text": "Базалық", "correct": false },{ "text": "Желілік", "correct": false },{ "text": "Иерархиялық", "correct": false }]},
+      {"question": "Реляциялық деректер қорының негізгі элементі қалай аталады?","answers": [{ "text": "Код", "correct": false },{ "text": "Құжат", "correct": false },{ "text": "Кесте", "correct": true },{ "text": "Файл", "correct": false }]},
+      {"question": "Кілттік өрісті көрсету үшін қандай сөз қолданылады?","answers": [{ "text": "PRIMARY KEY", "correct": true },{ "text": "AUTO_INCREMENT", "correct": false },{ "text": "AUTO", "correct": false },{ "text": "VALUES", "correct": false }]},
+      {"question": "Деректер қорында өшіруге арналған команданың синтаксисін толықтырыңыз: DELETE FROM sabaktar ...","answers": [{ "text": "UPDATE", "correct": false },{ "text": "LIKE name=\"физика\";", "correct": false },{ "text": "INSERT INTO", "correct": false },{ "text": "WHERE", "correct": true }]},
+      {"question": "MySQL-да жаңа кесте құру үшін қолданылатын кілттік сөз қандай?","answers": [{ "text": "insert into", "correct": false },{ "text": "primarykey", "correct": false },{ "text": "fieldname", "correct": false },{ "text": "CREATE TABLE", "correct": true }]},
+      {"question": "SQL тілінде кестеден бағанды (column) жою командасы қалай жазылады?","answers": [{ "text": "ALTER students DROP COLUMN gender", "correct": false },{ "text": "ALTER TABLE students COLUMN gender", "correct": false },{ "text": "ALTER TABLE students DROP COLUMN gender", "correct": true },{ "text": "TABLE students DROP COLUMN gender", "correct": false }]},
+      {"question": "Кілттік өрісті көрсету үшін SQL-да қандай сөз қолданылады?","answers": [{ "text": "PRIMARY KEY", "correct": true },{ "text": "AUTO_INCREMENT", "correct": false },{ "text": "AUTO", "correct": false },{ "text": "VALUES", "correct": false }]},
+      {"question": "Баға бойынша барлық жеткізушілердің (suppliers) аттарын және қаласын шығару үшін дұрыс SQL сұранысын таңдаңыз:","answers": [{ "text": "SELECT city FROM suppliers WHERE supplierid 4.0", "correct": false },{ "text": "SELECT FROM suppliers WHERE rating 4.0", "correct": false },{ "text": "SELECT name, city FROM suppliers WHERE city 4.0", "correct": false },{ "text": "SELECT name, city FROM suppliers WHERE rating 4.0", "correct": true }]},
+      { "question": "Деректер қорын құруға арналған SQL командасы қандай?", "answers": [ { "text": "CREATE DATABASE name;", "correct": true }, { "text": "DROP TABLE name;", "correct": false }, { "text": "CREATE TABLE name;", "correct": false }, { "text": "DROP DATABASE name;", "correct": false } ] },
+      { "question": "Фильмдердің орташа ұзақтығын есептеуге арналған SQL сұранысы:", "answers": [ { "text": "SELECT AVG(length) FROM film;", "correct": true }, { "text": "SELECT SUM(length) FROM film;", "correct": false }, { "text": "SELECT MAX(length) FROM film;", "correct": false }, { "text": "SELECT COUNT(length) FROM film;", "correct": false } ] },
+      { "question": "Klientter кестесіне жаңадан 4-ші клиент Serikbol жазбасын енгізу үшін қолданатын дұрыс SQL код:", "answers": [ { "text": "INSERT INTO klientter (4, 'Serikbol')", "correct": false }, { "text": "INSERT klientter (klient_id, name) VALUES (id=4, name='Serikbol');", "correct": false }, { "text": "INSERT VALUES (id=4, name='Serikbol');", "correct": false }, { "text": "INSERT INTO klientter (klient_id, name) VALUES (4,'Serikbol');", "correct": true } ] },
+      { "question": "Кестелер арасындағы \"біреуден көпке\" байланыс қай жағдайға сәйкес келеді?", "answers": [ { "text": "Біреуден көпке", "correct": true }, { "text": "Біреуден біреуге", "correct": false }, { "text": "Көптен біреуге", "correct": false }, { "text": "Көптен біреуге", "correct": false } ] },
+      { "question": "Берілген кестеден 25 жастан асқан оқырмандардың атын көрсететін дұрыс сұранысты таңдаңыз:", "answers": [ { "text": "SELECT readers FROM name WHERE age > 25;", "correct": false }, { "text": "SELECT name FROM readers WHERE age > 25;", "correct": true }, { "text": "SELECT name FROM reader WHERE reader_id > 25;", "correct": false }, { "text": "SELECT * FROM readers HAVING age < 25;", "correct": false } ] },
+      { "question": "Оқушылар (students) кестесінде аты (name) Али болатын жазбалардың жасын 15 ететін дұрыс SQL сұраныс:", "answers": [ { "text": "UPDATE students SET age = 15 name = \"Али\"", "correct": false }, { "text": "UPDATE students SET age = 15 WHERE name = \"Алинұр\"", "correct": false }, { "text": "DELETE students SET age = 16 WHERE name = \"Али\"", "correct": false }, { "text": "UPDATE students SET age = 15 LIKE name = \"Али\"", "correct": false }, { "text": "UPDATE students SET age = 15 WHERE name = \"Али\"", "correct": true }, { "text": "UPDATE SET age = 15 WHERE name = \"Али\"", "correct": false } ] },
+      { "question": "Деректер қорында tapsyrys кестесін құру үшін жазылатын дұрыс командалар жолын анықтаңыз", "answers": [ { "text": "CREATE TABLE tapsyrys (tapsyrys_id bool, aty_joni integer (20), kategoria VARCHAR (20), summa float);", "correct": false }, { "text": "CREATE TABLE tapsyrys (tapsyrys_id integer, aty_joni VARCHAR (20), kategoria VARCHAR (20), summa integer);", "correct": true }, { "text": "CREATE TABLE tapsyrys (tapsyrys_id bool, aty_joni integer (20), kategoria VARCHAR (20), summa integer);", "correct": false }, { "text": "CREATE TABLE tapsyrys (tapsyrys_id integer, tapsyrys_id, aty_joni integer (20), kategoria VARCHAR (20), summa integer);", "correct": false } ] },
+      { "question": "Деректер қорында кестелерде сол жак біріктіруді кандай сұраныс орындайды", "answers": [ { "text": "RIGHT JOIN", "correct": false }, { "text": "LEFT JOIN", "correct": true }, { "text": "LEFT WING", "correct": false }, { "text": "JUSTIFY JOIN", "correct": false } ] },
+      { "question": "Кесте құруға арналған SQL командасы", "answers": [ { "text": "DROP TABLE name (...);", "correct": false }, { "text": "CREATE TABLE name (...);", "correct": true }, { "text": "DROP DATABASE nam", "correct": false }, { "text": "CREATE DATABASE", "correct": false } ] },
+      { "question": "Бағасы 4-тен жоғары фильмдердің санын есептеуге арналған сұраныс", "answers": [ { "text": "SELECT COUNT(length) FROM film WHERE rental_rate = 4;", "correct": false }, { "text": "SELECT AVG(*) FROM film WHERE rental_rate > 4;", "correct": false }, { "text": "SELECT COUNT(*) FROM film WHERE rental_rate > 4;", "correct": true }, { "text": "SELECT SUM(*) FROM film WHERE rental_rate > 4;", "correct": false } ] },
+      { "question": "Деректер қорын жобалау процесінің кезең(-дер)і", "answers": [ { "text": "Деректер қорының қызметін анықтау", "correct": true }, { "text": "Кестелер арасындағы байланысты анықтау", "correct": true }, { "text": "Кілттік жазбаны анықтау", "correct": true }, { "text": "Өрістер арасындағы байланысты анықтау", "correct": true }, { "text": "Програмалық жабдықтарды анықтау", "correct": false }, { "text": "Жазбаларды анықтау", "correct": true } ] },
+      { "question": "Filmder кестесінен ұзақтығы 90 минуттан аз барлық фильм атауларын таңдау үшін жазылатын SQL сұранысы", "answers": [ { "text": "SELECT title FROM Filmder WHERE length<90;", "correct": true }, { "text": "SELECT * FROM Filmder WHERE length<90;", "correct": false }, { "text": "SELECT length<90 FROM Filmder;", "correct": false }, { "text": "SELECT FROM Filmder WHERE length<90;", "correct": false } ] },
+      { "question": "Төмендегі берілген кестеге, келесідей SQL сұраныс жазғанда шығатын нәтиже: SELECT qyzmetkerler.qyzmetker_id, qyzmetkerler.aty, mamandyqtar.mamandyq FROM qyzmetkerler, mamandyqtar WHERE qyzmetkerler.qyzmetker_id = mamandyqtar.qyzmetker_id", "answers": [ { "text": "Тек Болат қызметкері және мамандығы көрсетіледі", "correct": false }, { "text": "qyzmetker_id, aty, mamandyq: тек 2 Болат geo мәндері шығады", "correct": true }, { "text": "Барлық қызметкерлер және mamandyq бос мәні шығады", "correct": false }, { "text": "Бос нәтижеге ие болады", "correct": false } ] },
+      { "question": "Барлық оқушылардың аттары мен баллдарын көрсететін сұраныс (кесте: students)", "answers": [ { "text": "SELECT name FROM students;", "correct": false }, { "text": "SELECT name, class FROM students;", "correct": false }, { "text": "SELECT name, score FROM students;", "correct": true }, { "text": "SELECT score, class FROM students;", "correct": false } ] },
+      { "question": "Реляциялық деректер қорында кестелер арасындағы байланыс ... орнатылады", "answers": [ { "text": "Кілттік өріс арқылы", "correct": true }, { "text": "Жолдар арқылы", "correct": false }, { "text": "Өрістер арқылы", "correct": false }, { "text": "Дұрыс жауап жоқ", "correct": false } ] },
+      { "question": "Келесі мәліметтерді 'Gimarattar' кестесіне дұрыс енгізудің жолын көрсет", "answers": [ { "text": "INSERT INTO Gimarattar(Gimarat, ID, Qabat) VALUES (\"Kitaphana\", 5, 12);", "correct": false }, { "text": "INSERT INTO Gimarattar VALUES (\"Kitaphana\", 5, 12);", "correct": false }, { "text": "INSERT INTO Gimarattar (Gimarat, ID, Qabat) (\"Kitaphana\", 5, 12);", "correct": false }, { "text": "INSERT INTO Gimarattar(ID, Gimarat, Qabat) VALUES (\"Kitaphana\", 5, 12);", "correct": true } ] },
+      { "question": "Instruments кестесінде LIKE операторының көмегімен өз атауында «шертпелі» сөзі бар аспап жазбаларын шығару үшін қолданылатын сұраныс:", "answers": [ { "text": "SELECT шертпелі FROM Instruments WHERE=type;", "correct": false }, { "text": "SELECT * FROM Instruments WHERE type LIKE 'шерт%';", "correct": true }, { "text": "SELECT type FROM WHERE LIKE «%_шертпелі»;", "correct": false }, { "text": "SELECT Instruments WHERE LIKE '_шерт%';", "correct": false } ] },
+      { "question": "Тек шартты ғана қанағаттандыратын жазбаларды ғана көруге болатын SQL команда:", "answers": [ { "text": "SELECT", "correct": false }, { "text": "WHERE", "correct": true }, { "text": "FROM", "correct": false }, { "text": "SET", "correct": false } ] },
+      { "question": "Бір бағанның көрсетілген мәнімен жолдарды жылдам іздеу үшін ыңғайлы элемент:", "answers": [ { "text": "кілттік өрістер", "correct": false }, { "text": "кестелер", "correct": false }, { "text": "ұяшықтар", "correct": false }, { "text": "индекстер", "correct": true } ] },
+      { "question": "Filmder кестесінен Title және Length өрістерінің барлық жазбаларын шығарып, Title бойынша кему ретімен реттелген тізім үшін жазылатын сұраныс:", "answers": [ { "text": "UPDATE Title, Length FROM Filmder ORDER BY Title DESC;", "correct": false }, { "text": "SELECT Title, Length FROM Filmder ORDER BY Title DESC;", "correct": true }, { "text": "SELECT Title, Length FROM Filmder ORDER BY Title ASC;", "correct": false }, { "text": "SELECT * FROM Filmder ORDER BY Title DESC;", "correct": false } ] },
+      { "question": "Негізгі кестенің бір жазбасына бағынышты кестенің бірнеше жазбасы сай келеді, сипатталған байланыс түрі:", "answers": [ { "text": "Көптен-көпке", "correct": false }, { "text": "Біреуден-біреуге", "correct": false }, { "text": "Біреуден-көпке", "correct": true }, { "text": "Көптен-біреуге", "correct": false } ] },
+      { "question": "Кестеден 'type' бағанында 'электр' сөзі бар барлық жазбаларды таңдау үшін жазылатын дұрыс SQL сұранысы:", "answers": [ { "text": "SELECT * FROM Instruments WHERE type LIKE '%электр%';", "correct": true }, { "text": "SELECT type FROM Instruments WHERE type='электр';", "correct": false }, { "text": "SELECT * FROM Instruments WHERE type='электр%';", "correct": false }, { "text": "SELECT Instruments WHERE LIKE '%электр%';", "correct": false } ] },
+
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let incorrectAnswers = [];
+
+    const quizWrapper = document.getElementById("quiz-wrapper");
+    const quizContainer = document.getElementById("quiz-container");
+    const resultBlock = document.getElementById("result");
+    const resultScore = document.getElementById("resultScore");
+    const resultDetails = document.getElementById("resultDetails");
+    const resultText = document.getElementById("resultText");
+    const reviewContainer = document.getElementById("reviewContainer");
+    const restartBtn = document.getElementById("restartBtn");
+    const questionCounter = document.getElementById("questionCounter");
+    const progressBar = document.getElementById("progressBar");
+
+    // Функция для перемешивания массива (алгоритм Фишера-Йейтса)
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    function showQuestion(index) {
+      const q = questions[index];
+      questionCounter.textContent = `${index + 1}/${questions.length}`;
+      progressBar.style.width = `${((index + 1) / questions.length) * 100}%`;
+      
+      quizContainer.innerHTML = `<p>${q.question}</p><div class="answers"></div>`;
+      const answersBlock = quizContainer.querySelector(".answers");
+
+      q.answers.forEach(ans => {
+        const btn = document.createElement("button");
+        btn.className = "btn";
+        btn.textContent = ans.text;
+        btn.onclick = () => handleAnswer(ans.correct, q);
+        answersBlock.appendChild(btn);
+      });
+    }
+
+    function handleAnswer(isCorrect, question) {
+      if (isCorrect) {
+        score++;
+      } else {
+        incorrectAnswers.push(question);
+      }
+      currentQuestion++;
+
+      if (currentQuestion < questions.length) {
+        showQuestion(currentQuestion);
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      quizWrapper.style.display = "none";
+      resultBlock.style.display = "block";
+      
+      const percent = Math.round((score / questions.length) * 100);
+      
+      // Анимация счета
+      let currentPercent = 0;
+      const interval = setInterval(() => {
+        if (currentPercent >= percent) {
+          clearInterval(interval);
+        }
+        resultScore.textContent = currentPercent + "%";
+        currentPercent++;
+      }, 20);
+
+      resultDetails.textContent = `${questions.length} сұрақтың ${score} дұрыс`;
+
+      if (percent >= 80) {
+        resultText.textContent = "Керемет! Сіз ақпарат тақырыбыныңнегіздерін жақсы білесіз! 🎉";
+        resultScore.style.color = 'var(--secondary-color)';
+      } else if (percent >= 50) {
+        resultText.textContent = "Жақсы! Бірақ әлі көп нәрсені үйрену керек. 👍";
+        resultScore.style.color = 'var(--warning-color)';
+      } else {
+        resultText.textContent = "Қайталап көріңіз, материалды жақсырақ меңгеру керек. 💪";
+        resultScore.style.color = 'var(--accent-color)';
+      }
+      
+      displayIncorrectAnswers();
+    }
+
+    function displayIncorrectAnswers() {
+        reviewContainer.innerHTML = ''; // Очистка предыдущих результатов
+        if (incorrectAnswers.length > 0) {
+            const reviewHeader = document.createElement('h3');
+            reviewHeader.textContent = 'Қатемен жұмыс:';
+            reviewContainer.appendChild(reviewHeader);
+
+            incorrectAnswers.forEach(q => {
+                const correctAnswer = q.answers.find(ans => ans.correct).text;
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'review-question';
+                questionDiv.innerHTML = `
+                    <p>${q.question}</p>
+                    <span class="correct-answer">Дұрыс жауап: ${correctAnswer}</span>
+                `;
+                reviewContainer.appendChild(questionDiv);
+            });
+        }
+    }
+
+
+    restartBtn.addEventListener("click", () => {
+      currentQuestion = 0;
+      score = 0;
+      incorrectAnswers = [];
+      quizWrapper.style.display = "block";
+      resultBlock.style.display = "none";
+      shuffleArray(questions); // Снова перемешиваем для нового теста
+      showQuestion(currentQuestion);
+    });
+
+    // Инициализация
+    shuffleArray(questions);
+    showQuestion(currentQuestion);
+  </script>
+</body>
+</html>
