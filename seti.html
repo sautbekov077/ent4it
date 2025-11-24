@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Тест: Желілер</title>
+  <style>
+    :root {
+      --primary-color: #4285f4; /* Google Blue */
+      --secondary-color: #34a853; /* Google Green */
+      --accent-color: #ea4335; /* Google Red */
+      --warning-color: #fbbc05; /* Google Yellow */
+      --light-color: #f8f9fa;
+      --dark-color: #202124;
+      --text-color: #3c4043;
+      --border-radius-main: 12px;
+      --box-shadow-light: 0 6px 12px rgba(0, 0, 0, 0.08);
+      --box-shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #eef1f5; 
+      color: var(--text-color);
+      line-height: 1.7; 
+    }
+    
+    header {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 2.5rem 0; 
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      position: relative; 
+    }
+
+    header::before, header::after {
+      content: '';
+      position: absolute;
+      bottom: 10px;
+      width: 25px;
+      height: 25px;
+      background: white;
+      opacity: 0.1;
+      border-radius: 50%;
+      animation: float 5s ease-in-out infinite;
+    }
+    header::before { left: 15%; animation-delay: 0s; }
+    header::after { right: 15%; animation-delay: 2.5s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    h1 {
+      margin: 0;
+      font-size: 2.8rem; 
+      animation: fadeInDown 1s ease-out;
+      font-weight: 700; 
+    }
+    
+    .subtitle {
+      font-size: 1.3rem; 
+      margin-top: 10px;
+      opacity: 0.95;
+      animation: fadeInUp 1s ease-out 0.3s;
+      animation-fill-mode: backwards;
+    }
+    nav {
+        background-color: var(--dark-color);
+        padding: 1rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        position: sticky; 
+        top: 0;
+        z-index: 1000;
+    }
+    nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+    }
+    nav ul li {
+        display: inline-block;
+        margin: 0 15px;
+    }
+    nav ul li a {
+        color: var(--light-color);
+        text-decoration: none;
+        font-size: 1.1em;
+        padding: 10px 15px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    nav ul li a:hover, nav ul li a.active {
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 2.5rem auto;
+      padding: 0 20px;
+    }
+
+    .question-block {
+      background: white;
+      border-radius: var(--border-radius-main);
+      padding: 2.5rem;
+      box-shadow: var(--box-shadow-light);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: fadeInUp 0.5s ease;
+    }
+
+    .question-block p {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: var(--dark-color);
+    }
+
+    .answers {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 14px 28px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      border: none;
+      cursor: pointer;
+      font-size: 1.05rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+    
+    .btn:hover {
+      background-color: #3367d6;
+      transform: scale(1.02) translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+    
+    .btn-secondary {
+      background-color: var(--secondary-color);
+    }
+    .btn-secondary:hover {
+      background-color: #2b8445;
+    }
+
+    .result {
+      text-align: center;
+      margin-top: 3rem;
+      display: none;
+      animation: fadeInUp 0.8s ease;
+      background: white;
+      border-radius: var(--border-radius-main);
+      padding: 2.5rem;
+      box-shadow: var(--box-shadow-light);
+    }
+
+    .result-summary {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .result-score {
+      font-size: 4rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+    
+    .result-details {
+        font-size: 1.2rem;
+        color: #666;
+        margin-bottom: 2rem;
+    }
+
+    .result-text {
+      font-size: 1.2rem;
+      color: var(--dark-color);
+      max-width: 90%;
+      margin: 1.5rem auto;
+      font-style: italic;
+    }
+
+    .restart-btn {
+      margin-top: 2rem;
+    }
+
+    .review-section {
+        margin-top: 3rem;
+        text-align: left;
+    }
+
+    .review-section h3 {
+        color: var(--dark-color);
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .review-question {
+        background-color: #f8f9fa;
+        border-left: 5px solid var(--accent-color);
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+    }
+    
+    .review-question p {
+        margin: 0 0 0.5rem 0;
+        font-weight: 600;
+    }
+
+    .review-question .correct-answer {
+        color: var(--secondary-color);
+        font-weight: bold;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .progress-container {
+      width: 100%;
+      background-color: #e0e0e0;
+      border-radius: 50px;
+      margin: 1.5rem 0;
+      height: 10px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      border-radius: 50px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .question-counter {
+      text-align: right;
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2.2rem; }
+      .subtitle { font-size: 1.1rem;}
+      .question-block, .result { padding: 1.5rem; }
+      .question-block p { font-size: 1.1rem; }
+      .btn { padding: 12px 20px; font-size: 1rem; }
+      .result-score { font-size: 3rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1>Тест: Желілер 🚀</h1>
+      <p class="subtitle">Сұрақтарға жауап беріп, нәтижеңізді біліңіз!</p>
+    </div>
+  </header>
+   <nav>
+        <ul>
+            <li><a href="index.html">Басты бет</a></li>
+            <li><a href="test.html" class="active">Тест тақырыптары</a></li>
+        </ul>
+    </nav>
+
+  <div class="container">
+    <div id="quiz-wrapper">
+        <div class="question-counter" id="questionCounter">1/10</div>
+        <div class="progress-container">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div id="quiz-container" class="question-block">
+          </div>
+    </div>
+    
+    <div class="result" id="result">
+      <h2 class="result-summary">Сіздің нәтижеңіз:</h2>
+      <div class="result-score" id="resultScore">0%</div>
+      <div class="result-details" id="resultDetails"></div>
+      <p class="result-text" id="resultText"></p>
+      <div id="reviewContainer" class="review-section"></div>
+      <button class="btn btn-secondary restart-btn" id="restartBtn">Тестті қайта бастау</button>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+{"question":"IP адрес қандай бөліктерден тұрады?","answers":[{"text":"Желі нөмері және хост","correct":true},{"text":"Динамикалық және статикалық","correct":false},{"text":"Нөмер және класс","correct":false},{"text":"Шлюз және провайдер","correct":false}]},
+{"question":"Желі 4 минутта 1080 Кбайт ақпарат тасымалдаса, оның өткізу қабілетін анықтаңыз","answers":[{"text":"11452 бит","correct":false},{"text":"66 Кбайт","correct":true},{"text":"576 Кбит","correct":false},{"text":"986 Байт","correct":false}]},
+{"question":"Ақпаратты берудің және өңдеудің ең кіші бірлігі?","answers":[{"text":"Байт","correct":false},{"text":"Бит","correct":true},{"text":"Бод","correct":false},{"text":"Октет","correct":false}]},
+{"question":"Концентратордың қызметі қандай?","answers":[{"text":"Желілер арасында адрестерді аудару","correct":false},{"text":"Ақпаратты белгілі бір құрылғыға жіберу","correct":false},{"text":"Жергілікті желі мен интернет желісін байланыстыру","correct":false},{"text":"Порттарына келіп түскен деректерді басқа порттарға жіберу","correct":true}]},
+{"question":"Желінің өткізгіштік қабілеті неге тәуелді?","answers":[{"text":"Құрылғының жылдамдығына","correct":true},{"text":"Жады көлеміне","correct":false},{"text":"Процессордың қалпына","correct":false},{"text":"Бағдарламаның түріне","correct":false}]},
+{"question":"LAN (Local Area Network) желісінің негізгі ерекшелігі неде?","answers":[{"text":"Жақын аралыққа арналған желі","correct":true},{"text":"Дүниежүзілік желі","correct":false},{"text":"Жоғары жылдамдықты кең желі","correct":false},{"text":"Пайдаланушыларға арналған бұлтын желі","correct":false}]},
+{"question":"IP мекен-жайы қандай мақсатта қолданылады?","answers":[{"text":"Желідегі құрылғыларды бірегей анықтау үшін","correct":true},{"text":"Деректерді сақтау үшін","correct":false},{"text":"Файлдарды басқару үшін","correct":false},{"text":"Интернетке қосылу үшін","correct":false}]},
+{"question":"MAC адрес не үшін қажет?","answers":[{"text":"Желілік құрылғыны физикалық деңгейде анықтау","correct":true},{"text":"Процессордың идентификациясы","correct":false},{"text":"Деректерді сақтау","correct":false},{"text":"Клиенттің идентификациясы","correct":false}]},
+{"question":"DHCP протоколының қызметі қандай?","answers":[{"text":"Желідегі құрылғыларға IP мекен-жайларды автоматты түрде тағайындау","correct":true},{"text":"Деректерді шифрлау","correct":false},{"text":"Интернет жылдамдығын арттыру","correct":false},{"text":"Пайдаланушы аутентификациясы","correct":false}]},
+{"question":"OSI моделінің бірінші деңгейі қандай?","answers":[{"text":"Физикалық деңгей","correct":true},{"text":"Желілік деңгей","correct":false},{"text":"Тасымалдау деңгейі","correct":false},{"text":"Сеанс деңгейі","correct":false}]},
+{"question":"Желіде қолданылатын негізгі құралдардың бірі, ол пакеттерді бағыттайды және басқару сигналдарын жібереді?","answers":[{"text":"Коммутатор (Switch)","correct":true},{"text":"Маршрутизатор (Router)","correct":false},{"text":"Модем (Modem)","correct":false},{"text":"Концентратор (Hub)","correct":false}]},
+{"question":"IP хаттамасындағы әрбір октет қандай аралықта мән қабылдайды?","answers":[{"text":"0-255","correct":true},{"text":"1-256","correct":false},{"text":"0-128","correct":false},{"text":"1-99","correct":false}]},
+{"question":"IPv4 адресін қандай протокол бойынша беріледі?","answers":[{"text":"DHCP","correct":true},{"text":"FTP","correct":false},{"text":"HTTP","correct":false},{"text":"SMTP","correct":false}]},
+{"question":"Локальды желінің негізгі атауы қандай?","answers":[{"text":"LAN","correct":true},{"text":"WAN","correct":false},{"text":"MAN","correct":false},{"text":"PAN","correct":false}]},
+{"question":"Желі трафигін бақылау және басқару құрылғысы?","answers":[{"text":"Маршрутизатор","correct":true},{"text":"Коммутатор","correct":false},{"text":"Модем","correct":false},{"text":"Хост","correct":false}]},
+{"question":"Желіге физикалық қосылуды қамтамасыз ететін құрылғылар?","answers":[{"text":"Коммутатор және концентратор","correct":true},{"text":"Маршрутизатор және сервер","correct":false},{"text":"Брандмауэр және прокси","correct":false},{"text":"Клиент және сервер","correct":false}]},
+{"question":"IP адресі қалай түзілген?","answers":[{"text":"4 октеттен тұратын 32 биттік сан","correct":true},{"text":"8 октеттен тұратын 128 бит","correct":false},{"text":"2 октеттен тұратын 16 бит","correct":false},{"text":"1 октеттен тұратын 8 бит","correct":false}]},
+{"question":"Маршрутизатор не істейді?","answers":[{"text":"Желілер арасында деректерді бағыттайды","correct":true},{"text":"Желіні қорғау","correct":false},{"text":"Пакеттерді шифрлайды","correct":false},{"text":"Деректерді сақтау","correct":false}]},
+{"question":"Модемнің қызметі қандай?","answers":[{"text":"Сигналдарды сандық және аналогтық түріне түрлендіру","correct":true},{"text":"Деректерді шифрлайды","correct":false},{"text":"Желіні басқарады","correct":false},{"text":"Ақпаратты сақтау","correct":false}]},
+{"question":"Желі құрылғыларының жинағы қалай аталады?","answers":[{"text":"Желілік топология","correct":false},{"text":"Құрылғы жиынтығы","correct":false},{"text":"Инфрақұрылым","correct":true},{"text":"Протокол","correct":false}]},
+{"question":"Кең таралған желі протоколы IP қандай деңгейде жұмыс істейді?","answers":[{"text":"Желілік деңгей","correct":true},{"text":"Тасымалдау деңгейі","correct":false},{"text":"Қолданушы деңгейі","correct":false},{"text":"Физикалық деңгей","correct":false}]},
+{"question":"Желілік топологияда барлық құрылғылар орталыққа қосылған болса, бұл қандай топология?","answers":[{"text":"Жұлдызша (Star)","correct":true},{"text":"Бөлімшенік (Bus)","correct":false},{"text":"Сілтеме (Ring)","correct":false},{"text":"Толық қосылған (Mesh)","correct":false}]},
+{"question":"DNS не үшін қызмет атқарады?","answers":[{"text":"Домен атауларын IP-адрестерге аударады","correct":true},{"text":"Деректерді шифрлайды","correct":false},{"text":"Желіні басқарады","correct":false},{"text":"Желілік трафикті бақылайды","correct":false}]},
+{"question":"Желіде қолданылатын протоколдардың бірі FTP не үшін пайдаланылады?","answers":[{"text":"Файлдарды беру және алу","correct":true},{"text":"Веб-беттерді көрсету","correct":false},{"text":"Электрондық поштаны тасымалдау","correct":false},{"text":"Қауіпсіз желі байланысы","correct":false}]},
+{"question":"ICMP протоколы не үшін қолданылады?","answers":[{"text":"Желі хаттамаларындағы қателерді хабарлау","correct":true},{"text":"Деректер тасымалдау","correct":false},{"text":"Бағдарламаларды жаңарту","correct":false},{"text":"Оқиғаларды тіркеу","correct":false}]}
+  ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let incorrectAnswers = [];
+
+    const quizWrapper = document.getElementById("quiz-wrapper");
+    const quizContainer = document.getElementById("quiz-container");
+    const resultBlock = document.getElementById("result");
+    const resultScore = document.getElementById("resultScore");
+    const resultDetails = document.getElementById("resultDetails");
+    const resultText = document.getElementById("resultText");
+    const reviewContainer = document.getElementById("reviewContainer");
+    const restartBtn = document.getElementById("restartBtn");
+    const questionCounter = document.getElementById("questionCounter");
+    const progressBar = document.getElementById("progressBar");
+
+    // Функция для перемешивания массива (алгоритм Фишера-Йейтса)
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    function showQuestion(index) {
+      const q = questions[index];
+      questionCounter.textContent = `${index + 1}/${questions.length}`;
+      progressBar.style.width = `${((index + 1) / questions.length) * 100}%`;
+      
+      quizContainer.innerHTML = `<p>${q.question}</p><div class="answers"></div>`;
+      const answersBlock = quizContainer.querySelector(".answers");
+
+      q.answers.forEach(ans => {
+        const btn = document.createElement("button");
+        btn.className = "btn";
+        btn.textContent = ans.text;
+        btn.onclick = () => handleAnswer(ans.correct, q);
+        answersBlock.appendChild(btn);
+      });
+    }
+
+    function handleAnswer(isCorrect, question) {
+      if (isCorrect) {
+        score++;
+      } else {
+        incorrectAnswers.push(question);
+      }
+      currentQuestion++;
+
+      if (currentQuestion < questions.length) {
+        showQuestion(currentQuestion);
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      quizWrapper.style.display = "none";
+      resultBlock.style.display = "block";
+      
+      const percent = Math.round((score / questions.length) * 100);
+      
+      // Анимация счета
+      let currentPercent = 0;
+      const interval = setInterval(() => {
+        if (currentPercent >= percent) {
+          clearInterval(interval);
+        }
+        resultScore.textContent = currentPercent + "%";
+        currentPercent++;
+      }, 20);
+
+      resultDetails.textContent = `${questions.length} сұрақтың ${score} дұрыс`;
+
+      if (percent >= 80) {
+        resultText.textContent = "Керемет! Сіз ақпарат тақырыбыныңнегіздерін жақсы білесіз! 🎉";
+        resultScore.style.color = 'var(--secondary-color)';
+      } else if (percent >= 50) {
+        resultText.textContent = "Жақсы! Бірақ әлі көп нәрсені үйрену керек. 👍";
+        resultScore.style.color = 'var(--warning-color)';
+      } else {
+        resultText.textContent = "Қайталап көріңіз, материалды жақсырақ меңгеру керек. 💪";
+        resultScore.style.color = 'var(--accent-color)';
+      }
+      
+      displayIncorrectAnswers();
+    }
+
+    function displayIncorrectAnswers() {
+        reviewContainer.innerHTML = ''; // Очистка предыдущих результатов
+        if (incorrectAnswers.length > 0) {
+            const reviewHeader = document.createElement('h3');
+            reviewHeader.textContent = 'Қатемен жұмыс:';
+            reviewContainer.appendChild(reviewHeader);
+
+            incorrectAnswers.forEach(q => {
+                const correctAnswer = q.answers.find(ans => ans.correct).text;
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'review-question';
+                questionDiv.innerHTML = `
+                    <p>${q.question}</p>
+                    <span class="correct-answer">Дұрыс жауап: ${correctAnswer}</span>
+                `;
+                reviewContainer.appendChild(questionDiv);
+            });
+        }
+    }
+
+
+    restartBtn.addEventListener("click", () => {
+      currentQuestion = 0;
+      score = 0;
+      incorrectAnswers = [];
+      quizWrapper.style.display = "block";
+      resultBlock.style.display = "none";
+      shuffleArray(questions); // Снова перемешиваем для нового теста
+      showQuestion(currentQuestion);
+    });
+
+    // Инициализация
+    shuffleArray(questions);
+    showQuestion(currentQuestion);
+  </script>
+</body>
+</html>
