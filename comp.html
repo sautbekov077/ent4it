@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Тест: Компьютер құрылымы</title>
+  <style>
+    :root {
+      --primary-color: #4285f4; /* Google Blue */
+      --secondary-color: #34a853; /* Google Green */
+      --accent-color: #ea4335; /* Google Red */
+      --warning-color: #fbbc05; /* Google Yellow */
+      --light-color: #f8f9fa;
+      --dark-color: #202124;
+      --text-color: #3c4043;
+      --border-radius-main: 12px;
+      --box-shadow-light: 0 6px 12px rgba(0, 0, 0, 0.08);
+      --box-shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #eef1f5; 
+      color: var(--text-color);
+      line-height: 1.7; 
+    }
+    
+    header {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 2.5rem 0; 
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      position: relative; 
+    }
+
+    header::before, header::after {
+      content: '';
+      position: absolute;
+      bottom: 10px;
+      width: 25px;
+      height: 25px;
+      background: white;
+      opacity: 0.1;
+      border-radius: 50%;
+      animation: float 5s ease-in-out infinite;
+    }
+    header::before { left: 15%; animation-delay: 0s; }
+    header::after { right: 15%; animation-delay: 2.5s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    h1 {
+      margin: 0;
+      font-size: 2.8rem; 
+      animation: fadeInDown 1s ease-out;
+      font-weight: 700; 
+    }
+    
+    .subtitle {
+      font-size: 1.3rem; 
+      margin-top: 10px;
+      opacity: 0.95;
+      animation: fadeInUp 1s ease-out 0.3s;
+      animation-fill-mode: backwards;
+    }
+    nav {
+        background-color: var(--dark-color);
+        padding: 1rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        position: sticky; 
+        top: 0;
+        z-index: 1000;
+    }
+    nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+    }
+    nav ul li {
+        display: inline-block;
+        margin: 0 15px;
+    }
+    nav ul li a {
+        color: var(--light-color);
+        text-decoration: none;
+        font-size: 1.1em;
+        padding: 10px 15px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    nav ul li a:hover, nav ul li a.active {
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 2.5rem auto;
+      padding: 0 20px;
+    }
+
+    .question-block {
+      background: white;
+      border-radius: var(--border-radius-main);
+      padding: 2.5rem;
+      box-shadow: var(--box-shadow-light);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: fadeInUp 0.5s ease;
+    }
+
+    .question-block p {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: var(--dark-color);
+    }
+
+    .answers {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 14px 28px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      border: none;
+      cursor: pointer;
+      font-size: 1.05rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+    
+    .btn:hover {
+      background-color: #3367d6;
+      transform: scale(1.02) translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+    
+    .btn-secondary {
+      background-color: var(--secondary-color);
+    }
+    .btn-secondary:hover {
+      background-color: #2b8445;
+    }
+
+    .result {
+      text-align: center;
+      margin-top: 3rem;
+      display: none;
+      animation: fadeInUp 0.8s ease;
+      background: white;
+      border-radius: var(--border-radius-main);
+      padding: 2.5rem;
+      box-shadow: var(--box-shadow-light);
+    }
+
+    .result-summary {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .result-score {
+      font-size: 4rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+    
+    .result-details {
+        font-size: 1.2rem;
+        color: #666;
+        margin-bottom: 2rem;
+    }
+
+    .result-text {
+      font-size: 1.2rem;
+      color: var(--dark-color);
+      max-width: 90%;
+      margin: 1.5rem auto;
+      font-style: italic;
+    }
+
+    .restart-btn {
+      margin-top: 2rem;
+    }
+
+    .review-section {
+        margin-top: 3rem;
+        text-align: left;
+    }
+
+    .review-section h3 {
+        color: var(--dark-color);
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .review-question {
+        background-color: #f8f9fa;
+        border-left: 5px solid var(--accent-color);
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+    }
+    
+    .review-question p {
+        margin: 0 0 0.5rem 0;
+        font-weight: 600;
+    }
+
+    .review-question .correct-answer {
+        color: var(--secondary-color);
+        font-weight: bold;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .progress-container {
+      width: 100%;
+      background-color: #e0e0e0;
+      border-radius: 50px;
+      margin: 1.5rem 0;
+      height: 10px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      border-radius: 50px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .question-counter {
+      text-align: right;
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2.2rem; }
+      .subtitle { font-size: 1.1rem;}
+      .question-block, .result { padding: 1.5rem; }
+      .question-block p { font-size: 1.1rem; }
+      .btn { padding: 12px 20px; font-size: 1rem; }
+      .result-score { font-size: 3rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1>Тест: Компьютер құрылымы 🚀</h1>
+      <p class="subtitle">Сұрақтарға жауап беріп, нәтижеңізді біліңіз!</p>
+    </div>
+  </header>
+   <nav>
+        <ul>
+            <li><a href="index.html">🏠 Басты бет</a></li>
+            <li><a href="test.html" class="active">📚 Тест тақырыптары</a></li>
+        </ul>
+    </nav>
+
+  <div class="container">
+    <div id="quiz-wrapper">
+        <div class="question-counter" id="questionCounter">1/10</div>
+        <div class="progress-container">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div id="quiz-container" class="question-block">
+          </div>
+    </div>
+    
+    <div class="result" id="result">
+      <h2 class="result-summary">Сіздің нәтижеңіз:</h2>
+      <div class="result-score" id="resultScore">0%</div>
+      <div class="result-details" id="resultDetails"></div>
+      <p class="result-text" id="resultText"></p>
+      <div id="reviewContainer" class="review-section"></div>
+      <button class="btn btn-secondary restart-btn" id="restartBtn">Тестті қайта бастау</button>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+     { "question": "Тұрақты жадының маңызды микросұлбасы қандай?", "answers": [ { "text": "MODE", "correct": false }, { "text": "CMOS", "correct": false }, { "text": "ROM", "correct": true }, { "text": "BIOS", "correct": false } ] },
+     { "question": "Компьютер архитектурасында негізгі процессордың бөлігі қандай?", "answers": [ { "text": "Жад", "correct": false }, { "text": "ALU (арифметикалық-логикалық құрылғы)", "correct": true }, { "text": "Кіріс/шығыс контроллері", "correct": false }, { "text": "Желілік карта", "correct": false } ] },
+     { "question": "RAM жад қандай сипаттамаларға ие?", "answers": [ { "text": "Тұрақты және баяу", "correct": false }, { "text": "Жылдам және ұшпалы", "correct": true }, { "text": "Тұрақты және жылдам", "correct": false }, { "text": "Ұшпалы және баяу", "correct": false } ] },
+     { "question": "Компьютердің негізгі архитектурасы бойынша, жады мен процессор арасындағы деректер қалай өтеді?", "answers": [ { "text": "Ең қысқа байланыс арқылы", "correct": false }, { "text": "Шина арқылы", "correct": true }, { "text": "Тікелей сымдармен", "correct": false }, { "text": "Оптикалық талшықпен", "correct": false } ] },
+     { "question": "BIOS не үшін қажет?", "answers": [ { "text": "Жүйені қосу және бастапқы тексерулерді орындау үшін", "correct": true }, { "text": "Деректерді ұзақ мерзімге сақтау үшін", "correct": false }, { "text": "Процессордың жылдамдығын арттыру үшін", "correct": false }, { "text": "Желі байланысын басқару үшін", "correct": false } ] },
+     { "question": "CMOS жадының ерекшелігі неде?", "answers": [ { "text": "Жүйелік уақыт пен конфигурацияны сақтайды", "correct": true }, { "text": "Тек ақпарат сақтау үшін қолданылады", "correct": false }, { "text": "Жылдам процессорлық есептеулерді жүргізеді", "correct": false }, { "text": "Графикалық ақпаратты өңдейді", "correct": false } ] },
+     { "question": "Процессордың жұмыс жиілігі неге байланысты?", "answers": [ { "text": "Герцпен өлшенеді", "correct": true }, { "text": "байтпен өлшенеді", "correct": false }, { "text": "битпен өлшенеді", "correct": false }, { "text": "октетпен өлшенеді", "correct": false } ] },
+     { "question": "Кэш жадының басты мақсаты қандай?", "answers": [ { "text": "Процессорға тезірек мәліметтер беру", "correct": true }, { "text": "Деректерді ұзақ уақыт сақтау", "correct": false }, { "text": "Желі байланысын жеделдету", "correct": false }, { "text": "Кіріс-шығыс құрылғыларын басқару", "correct": false } ] },
+     { "question": "Кэш жадының басты мақсаты қандай?", "answers": [ { "text": "Процессорға тезірек мәліметтер беру", "correct": true }, { "text": "Деректерді ұзақ уақыт сақтау", "correct": false }, { "text": "Желі байланысын жеделдету", "correct": false }, { "text": "Кіріс-шығыс құрылғыларын басқару", "correct": false } ] },
+     { "question": "CPU ұяшығының негізгі қызметі қандай?", "answers": [ { "text": "Деректердің оперативті жадыдан алмасуы", "correct": true }, { "text": "Графикалық өңдеу", "correct": false }, { "text": "Қатты дискімен деректер алмасу", "correct": false }, { "text": "Желілік сұрауларды басқару", "correct": false } ] },
+     { "question": "Компьютердің арифметикалық-логикалық құрылғысы (ALU) не істейді?", "answers": [ { "text": "Есептеу және логикалық операциялар", "correct": true }, { "text": "Деректерді сақтау", "correct": false }, { "text": "Деректерді жеткізу", "correct": false }, { "text": "Жадты басқару", "correct": false } ] },
+     { "question": "Процессордың кеші (cache) қандай жылдамдықта жұмыс істейді?", "answers": [ { "text": "Процессорға жақын және өте жылдам", "correct": true }, { "text": "Процессорға алыс және баяу", "correct": false }, { "text": "Оперативті жадының жылдамдығымен бірдей", "correct": false }, { "text": "Қатты дискінің жылдамдығымен бірдей", "correct": false } ] },
+     { "question": "Неконвейерленген процессорда командалар қалай өңделеді?", "answers": [ { "text": "Бір уақытта бір команда", "correct": true }, { "text": "Көп командалар қатарымен", "correct": false }, { "text": "Параллель өңдеумен", "correct": false }, { "text": "Жад арқылы", "correct": false } ] },
+     { "question": "Компьютердің бас басқару блогының (CU) рөлі қандай?", "answers": [ { "text": "Командаларды басқару және синхрондау", "correct": true }, { "text": "Деректерді сақтау", "correct": false }, { "text": "Желі сұрауларын өңдеу", "correct": false }, { "text": "Енгізу-шығару құрылғыларын басқару", "correct": false } ] },
+     { "question": "Жүйелік шинаның негізгі қызметі қандай?", "answers": [ { "text": "Деректерді және сигналдарды бірнеше құрылғылар арасында тасымалдау", "correct": true }, { "text": "Процессорды салқындату", "correct": false }, { "text": "Ақпаратты ұзақ сақтау", "correct": false }, { "text": "Бағдарламаларды орындау", "correct": false } ] },
+     { "question": "CPU архитектурасында регистрдің қызметі?", "answers": [ { "text": "Жылдам жад ретінде қолданылады", "correct": true }, { "text": "Деректерді баяу сақтайды", "correct": false }, { "text": "Файлдарды сақтайды", "correct": false }, { "text": "Операциялық жүйені басқарады", "correct": false } ] },
+     { "question": "Процессордың командалық коды қалай аталады?", "answers": [ { "text": "Машиналық код", "correct": true }, { "text": "Программалық код", "correct": false }, { "text": "Жинақталған код", "correct": false }, { "text": "Желі коды", "correct": false } ] },
+     { "question": "ROM жадтың негізгі қызметі?", "answers": [ { "text": "Тұрақты деректерді сақтау", "correct": true }, { "text": "Жылдам есептеулер", "correct": false }, { "text": "Қосымша бағдарламаларды жүктеу", "correct": false }, { "text": "Интернет байланысын қамтамасыз ету", "correct": false } ] },
+     { "question": "Пайдаланушы мен компьютер арасындағы өзара әрекеттесуді қамтамасыз ететін жүйе?", "answers": [ { "text": "Пайдаланушы интерфейсі", "correct": true }, { "text": "Процессор", "correct": false }, { "text": "Жад", "correct": false }, { "text": "Оперативті жүйе", "correct": false } ] },
+     { "question": "Процессордың негізгі тетіктерінің бірі?", "answers": [ { "text": "Жүйелік сағат", "correct": true }, { "text": "Кіріс құрылғысы", "correct": false }, { "text": "Желі адаптері", "correct": false }, { "text": "Экран", "correct": false } ] },  
+     { "question": "Процессордың ішкі жиілігі не үшін жауап береді?", "answers": [ { "text": "Инструкцияларды басқарады", "correct": true }, { "text": "Деректерді сақтайды", "correct": false }, { "text": "Жүйенің қуатын арттырады", "correct": false }, { "text": "Көрсеткіштерді басқарады", "correct": false } ] },
+     { "question": "Желі құрылғысының басты міндеті қандай?", "answers": [ { "text": "Компьютерді желіге қосу және мәлімет алмасу", "correct": true }, { "text": "Деректерді ұзақ сақтау", "correct": false }, { "text": "Дисплейді басқару", "correct": false }, { "text": "Перифериялық құрылғыларды басқару", "correct": false } ] },
+     { "question": "Процессордағы регистрлер саны неге тәуелді?", "answers": [ { "text": "Архитектура ерекшеліктеріне", "correct": true }, { "text": "Жад көлеміне", "correct": false }, { "text": "Жүйелік такт жиілігіне", "correct": false }, { "text": "Желі жылдамдығына", "correct": false } ] },
+     { "question": "Оптикалық диск жетегінің қызметі қандай?", "answers": [ { "text": "Деректерді оқу және жазу", "correct": true }, { "text": "Деректерді сақтау", "correct": false }, { "text": "Жүйені қосу", "correct": false }, { "text": "Желі байланысын орнату", "correct": false } ] },
+     { "question": "Процессордағы декодер не істейді?", "answers": [ { "text": "Командаларды талдайды және орындалуын басқарады", "correct": true }, { "text": "Деректерді сақтайды", "correct": false }, { "text": "Жадыны басқарады", "correct": false }, { "text": "Пайдаланушымен байланысады", "correct": false } ] },
+     { "question": "Кіріс-шығыс контроллерінің рөлі қандай?", "answers": [ { "text": "Құрылғылар арасында деректер алмасуды реттеу", "correct": true }, { "text": "Программаны орындау", "correct": false }, { "text": "Деректерді сақтау", "correct": false }, { "text": "Жадты басқарып отыру", "correct": false } ] },
+     { "question": "Кэш жадының деңгейі неге байланысты?", "answers": [ { "text": "Процессормен физикалық арақашықтық", "correct": true }, { "text": "Жадының көлеміне", "correct": false }, { "text": "Бағдарламаның көлеміне", "correct": false }, { "text": "Процессордың жылдамдығына", "correct": false } ] },
+     { "question": "Сандық кесте не үшін қолданылады?", "answers": [ { "text": "Деректерді ұйымшыл түрде сақтау үшін", "correct": true }, { "text": "Графика салу үшін", "correct": false }, { "text": "Программаны орындау үшін", "correct": false }, { "text": "Құрылғыларды басқару үшін", "correct": false } ] },
+     { "question": "Процессордың буфері қандай функцияны атқарады?", "answers": [ { "text": "Деректерді уақытша сақтау және өңдеуге дайындау", "correct": true }, { "text": "Деректерді тұрақты сақтау", "correct": false }, { "text": "Жүйелік басқаруды қолдау", "correct": false }, { "text": "Желі байланысын қамтамасыз ету", "correct": false } ] },
+     { "question": "Процессордың мультиплексоры не үшін қажет?", "answers": [ { "text": "Деректер мен сигналдардың бір қатарға келуін ұйымдастыру", "correct": true }, { "text": "Ақпаратты қысу", "correct": false }, { "text": "Жадты кеңейту", "correct": false }, { "text": "Деректерді сақтау", "correct": false } ] },
+
+    
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let incorrectAnswers = [];
+
+    const quizWrapper = document.getElementById("quiz-wrapper");
+    const quizContainer = document.getElementById("quiz-container");
+    const resultBlock = document.getElementById("result");
+    const resultScore = document.getElementById("resultScore");
+    const resultDetails = document.getElementById("resultDetails");
+    const resultText = document.getElementById("resultText");
+    const reviewContainer = document.getElementById("reviewContainer");
+    const restartBtn = document.getElementById("restartBtn");
+    const questionCounter = document.getElementById("questionCounter");
+    const progressBar = document.getElementById("progressBar");
+
+    // Функция для перемешивания массива (алгоритм Фишера-Йейтса)
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    function showQuestion(index) {
+      const q = questions[index];
+      questionCounter.textContent = `${index + 1}/${questions.length}`;
+      progressBar.style.width = `${((index + 1) / questions.length) * 100}%`;
+      
+      quizContainer.innerHTML = `<p>${q.question}</p><div class="answers"></div>`;
+      const answersBlock = quizContainer.querySelector(".answers");
+
+      q.answers.forEach(ans => {
+        const btn = document.createElement("button");
+        btn.className = "btn";
+        btn.textContent = ans.text;
+        btn.onclick = () => handleAnswer(ans.correct, q);
+        answersBlock.appendChild(btn);
+      });
+    }
+
+    function handleAnswer(isCorrect, question) {
+      if (isCorrect) {
+        score++;
+      } else {
+        incorrectAnswers.push(question);
+      }
+      currentQuestion++;
+
+      if (currentQuestion < questions.length) {
+        showQuestion(currentQuestion);
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      quizWrapper.style.display = "none";
+      resultBlock.style.display = "block";
+      
+      const percent = Math.round((score / questions.length) * 100);
+      
+      // Анимация счета
+      let currentPercent = 0;
+      const interval = setInterval(() => {
+        if (currentPercent >= percent) {
+          clearInterval(interval);
+        }
+        resultScore.textContent = currentPercent + "%";
+        currentPercent++;
+      }, 20);
+
+      resultDetails.textContent = `${questions.length} сұрақтың ${score} дұрыс`;
+
+      if (percent >= 80) {
+        resultText.textContent = "Керемет! Сіз ақпарат тақырыбыныңнегіздерін жақсы білесіз! 🎉";
+        resultScore.style.color = 'var(--secondary-color)';
+      } else if (percent >= 50) {
+        resultText.textContent = "Жақсы! Бірақ әлі көп нәрсені үйрену керек. 👍";
+        resultScore.style.color = 'var(--warning-color)';
+      } else {
+        resultText.textContent = "Қайталап көріңіз, материалды жақсырақ меңгеру керек. 💪";
+        resultScore.style.color = 'var(--accent-color)';
+      }
+      
+      displayIncorrectAnswers();
+    }
+
+    function displayIncorrectAnswers() {
+        reviewContainer.innerHTML = ''; // Очистка предыдущих результатов
+        if (incorrectAnswers.length > 0) {
+            const reviewHeader = document.createElement('h3');
+            reviewHeader.textContent = 'Қатемен жұмыс:';
+            reviewContainer.appendChild(reviewHeader);
+
+            incorrectAnswers.forEach(q => {
+                const correctAnswer = q.answers.find(ans => ans.correct).text;
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'review-question';
+                questionDiv.innerHTML = `
+                    <p>${q.question}</p>
+                    <span class="correct-answer">Дұрыс жауап: ${correctAnswer}</span>
+                `;
+                reviewContainer.appendChild(questionDiv);
+            });
+        }
+    }
+
+
+    restartBtn.addEventListener("click", () => {
+      currentQuestion = 0;
+      score = 0;
+      incorrectAnswers = [];
+      quizWrapper.style.display = "block";
+      resultBlock.style.display = "none";
+      shuffleArray(questions); // Снова перемешиваем для нового теста
+      showQuestion(currentQuestion);
+    });
+
+    // Инициализация
+    shuffleArray(questions);
+    showQuestion(currentQuestion);
+  </script>
+</body>
+</html>
