@@ -1,442 +1,591 @@
 <!DOCTYPE html>
-<html lang="kk">
+<html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Тест: Сегіздік санау жүйесі</title>
-  <style>
-    :root {
-      --primary-color: #4285f4;
-      --secondary-color: #34a853;
-      --accent-color: #ea4335;
-      --warning-color: #fbbc05;
-      --light-color: #f8f9fa;
-      --dark-color: #202124;
-      --text-color: #3c4043;
-      --border-radius-main: 12px;
-      --box-shadow-light: 0 6px 12px rgba(0, 0, 0, 0.08);
-      --box-shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.12);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ҰБТ Информатика бойынша тесттер 🚀</title>
+    <style>
+        :root {
+            --primary-color: #4285f4; /* Google Blue */
+            --secondary-color: #34a853; /* Google Green */
+            --accent-color: #ea4335; /* Google Red */
+            --warning-color: #fbbc05; /* Google Yellow */
+            --light-color: #f8f9fa;
+            --dark-color: #202124;
+            --text-color: #3c4043;
+            --border-radius-main: 12px;
+            --box-shadow-light: 0 6px 12px rgba(0, 0, 0, 0.08);
+            --box-shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #eef1f5; 
+            color: var(--text-color);
+            line-height: 1.7; 
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2.5rem 0; 
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: relative; 
+        }
 
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #eef1f5; 
-      color: var(--text-color);
-      line-height: 1.7; 
-    }
-    header {
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      color: white;
-      padding: 2.5rem 0; 
-      text-align: center;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      position: relative; 
-    }
-    header::before, header::after {
-      content: '';
-      position: absolute;
-      bottom: 10px;
-      width: 25px;
-      height: 25px;
-      background: white;
-      opacity: 0.1;
-      border-radius: 50%;
-      animation: float 5s ease-in-out infinite;
-    }
-    header::before { left: 15%; animation-delay: 0s; }
-    header::after { right: 15%; animation-delay: 2.5s; }
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-    .header-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-    h1 {
-      margin: 0;
-      font-size: 2.8rem; 
-      animation: fadeInDown 1s ease-out;
-      font-weight: 700; 
-    }
-    .subtitle {
-      font-size: 1.3rem; 
-      margin-top: 10px;
-      opacity: 0.95;
-      animation: fadeInUp 1s ease-out 0.3s;
-      animation-fill-mode: backwards;
-    }
-    nav {
-        background-color: var(--dark-color);
-        padding: 1rem 0;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-        position: sticky; 
-        top: 0;
-        z-index: 1000;
-    }
-    nav ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        text-align: center;
-    }
-    nav ul li {
-        display: inline-block;
-        margin: 0 15px;
-    }
-    nav ul li a {
-        color: var(--light-color);
-        text-decoration: none;
-        font-size: 1.1em;
-        padding: 10px 15px;
-        border-radius: 5px;
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-    nav ul li a:hover, nav ul li a.active {
-        background-color: var(--primary-color);
-        color: white;
-    }
-    .container {
-      max-width: 800px;
-      margin: 2.5rem auto;
-      padding: 0 20px;
-    }
-    .question-block {
-      background: white;
-      border-radius: var(--border-radius-main);
-      padding: 2.5rem;
-      box-shadow: var(--box-shadow-light);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      animation: fadeInUp 0.5s ease;
-    }
-    .question-block p {
-      font-size: 1.3rem;
-      font-weight: 600;
-      margin-bottom: 1.5rem;
-      color: var(--dark-color);
-    }
-    .answers {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    .btn {
-      display: inline-block;
-      background-color: var(--primary-color);
-      color: white;
-      padding: 14px 28px;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-      border: none;
-      cursor: pointer;
-      font-size: 1.05rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      text-align: left;
-    }
-    .btn:hover {
-      background-color: #3367d6;
-      transform: scale(1.02) translateY(-2px);
-      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-    }
-    .btn-secondary {
-      background-color: var(--secondary-color);
-    }
-    .btn-secondary:hover {
-      background-color: #2b8445;
-    }
-    .result {
-      text-align: center;
-      margin-top: 3rem;
-      display: none;
-      animation: fadeInUp 0.8s ease;
-      background: white;
-      border-radius: var(--border-radius-main);
-      padding: 2.5rem;
-      box-shadow: var(--box-shadow-light);
-    }
-    .result-summary {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-    .result-score {
-      font-size: 4rem;
-      font-weight: bold;
-      color: var(--primary-color);
-      margin-bottom: 1rem;
-    }
-    .result-details {
-        font-size: 1.2rem;
-        color: #666;
-        margin-bottom: 2rem;
-    }
-    .result-text {
-      font-size: 1.2rem;
-      color: var(--dark-color);
-      max-width: 90%;
-      margin: 1.5rem auto;
-      font-style: italic;
-    }
-    .restart-btn {
-      margin-top: 2rem;
-    }
-    .review-section {
-        margin-top: 3rem;
-        text-align: left;
-    }
-    .review-section h3 {
-        color: var(--dark-color);
-        border-bottom: 2px solid var(--primary-color);
-        padding-bottom: 0.5rem;
-        margin-bottom: 1.5rem;
-    }
-    .review-question {
-        background-color: #f8f9fa;
-        border-left: 5px solid var(--accent-color);
-        padding: 1rem 1.5rem;
-        border-radius: 8px;
-        margin-bottom: 1rem;
-    }
-    .review-question p {
-        margin: 0 0 0.5rem 0;
-        font-weight: 600;
-    }
-    .review-question .correct-answer {
-        color: var(--secondary-color);
-        font-weight: bold;
-    }
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .progress-container {
-      width: 100%;
-      background-color: #e0e0e0;
-      border-radius: 50px;
-      margin: 1.5rem 0;
-      height: 10px;
-    }
-    .progress-bar {
-      height: 100%;
-      border-radius: 50px;
-      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-      width: 0%;
-      transition: width 0.4s ease;
-    }
-    .question-counter {
-      text-align: right;
-      color: #666;
-      font-size: 0.9rem;
-      margin-bottom: 0.5rem;
-    }
-    @media (max-width: 768px) {
-      h1 { font-size: 2.2rem; }
-      .subtitle { font-size: 1.1rem;}
-      .question-block, .result { padding: 1.5rem; }
-      .question-block p { font-size: 1.1rem; }
-      .btn { padding: 12px 20px; font-size: 1rem; }
-      .result-score { font-size: 3rem; }
-    }
-  </style>
+        header::before, header::after {
+            content: '';
+            position: absolute;
+            bottom: 10px;
+            width: 25px;
+            height: 25px;
+            background: white;
+            opacity: 0.1;
+            border-radius: 50%;
+            animation: float 5s ease-in-out infinite;
+        }
+        header::before { left: 15%; animation-delay: 0s; }
+        header::after { right: 15%; animation-delay: 2.5s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.8rem; 
+            animation: fadeInDown 1s ease-out;
+            font-weight: 700; 
+        }
+        
+        .subtitle {
+            font-size: 1.3rem; 
+            margin-top: 10px;
+            opacity: 0.95;
+            animation: fadeInUp 1s ease-out 0.3s;
+            animation-fill-mode: backwards;
+        }
+
+        nav {
+            background-color: var(--dark-color);
+            padding: 1rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            position: sticky; 
+            top: 0;
+            z-index: 1000;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+        nav ul li {
+            display: inline-block;
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: var(--light-color);
+            text-decoration: none;
+            font-size: 1.1em;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        nav ul li a:hover, nav ul li a.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2.5rem auto; 
+            padding: 0 20px;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem; 
+            margin: 3.5rem 0; 
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: var(--border-radius-main);
+            padding: 2.5rem; 
+            box-shadow: var(--box-shadow-light);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-12px); 
+            box-shadow: var(--box-shadow-heavy);
+        }
+        
+        .feature-icon { 
+            font-size: 2.5rem; 
+            color: var(--primary-color);
+            margin-bottom: 1.2rem;
+            display: inline-block; 
+            background-color: #e8f0fe; 
+            width: 70px;
+            height: 70px;
+            line-height: 70px;
+            border-radius: 50%;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem; 
+            color: var(--dark-color);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 14px 28px; 
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            margin-top: 1.2rem;
+            border: none;
+            cursor: pointer;
+            font-size: 1.05rem; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .btn:hover {
+            background-color: #3367d6;
+            transform: scale(1.05) translateY(-2px); 
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+        
+        .btn-accent {
+            background-color: var(--accent-color);
+        }
+        
+        .btn-accent:hover {
+            background-color: #d33426;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+        }
+        .btn-secondary:hover {
+            background-color: #2b8445;
+        }
+        
+        .test-categories {
+            margin: 2.5rem 0; /* Уменьшен отступ сверху, т.к. hero секция удалена */
+        }
+        
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 2rem; 
+        }
+        
+        .category-card {
+            background: white;
+            border-radius: var(--border-radius-main);
+            overflow: hidden;
+            box-shadow: var(--box-shadow-light);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex; 
+            flex-direction: column;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-8px) scale(1.02); 
+            box-shadow: var(--box-shadow-heavy);
+        }
+        
+        .category-image {
+            height: 180px; 
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.4s ease;
+        }
+        .category-card:hover .category-image {
+            transform: scale(1.1); 
+        }
+        
+        .category-info {
+            padding: 1.8rem; 
+            flex-grow: 1; 
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .category-info h3 {
+            margin-top: 0;
+            margin-bottom: 0.8rem; 
+            color: var(--primary-color);
+            font-size: 1.4rem; 
+        }
+        .category-details {
+            font-size: 0.9em;
+            color: #777;
+            margin-bottom: 1rem;
+        }
+        .category-details span {
+            margin-right: 10px;
+        }
+
+        footer {
+            background-color: var(--dark-color);
+            color: var(--light-color); 
+            text-align: center;
+            padding: 3rem 0; 
+            margin-top: 4rem; 
+            position: relative;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .back-to-top {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background-color: var(--primary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            border-radius: 50%;
+            text-decoration: none;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            z-index: 999;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Hero секция удалена, ее стили больше не нужны, но общие стили для .hero h2, .hero p остаются на случай, если где-то еще используется класс .hero */
+        /*
+        .hero {
+            text-align: center;
+            padding: 3.5rem 0; 
+            background-color: white; 
+            border-radius: var(--border-radius-main);
+            box-shadow: var(--box-shadow-light);
+            margin-bottom: 3rem; 
+        }
+        
+        .hero h2 {
+            font-size: 2.2rem; 
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+
+        .hero p {
+            font-size: 1.25rem; 
+            max-width: 800px;
+            margin: 0 auto 2.5rem auto; 
+            color: var(--text-color);
+        }
+        */
+        
+        .stats {
+            display: flex;
+            justify-content: space-around; 
+            gap: 2rem; 
+            margin: 3rem 0; 
+            flex-wrap: wrap;
+            padding: 2rem;
+            background-color: white;
+            border-radius: var(--border-radius-main);
+            box-shadow: var(--box-shadow-light);
+        }
+        
+        .stat-item {
+            text-align: center;
+            flex-basis: 200px; 
+        }
+        
+        .stat-icon { 
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-number {
+            font-size: 2.8rem; 
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1.05rem; 
+            color: #666;
+        }
+
+        /* Секция "Совет дня" удалена, ее стили (.tip-of-the-day) больше не нужны */
+        /*
+        .tip-of-the-day {
+            background-color: var(--warning-color);
+            color: var(--dark-color);
+            padding: 2rem;
+            border-radius: var(--border-radius-main);
+            text-align: center;
+            margin: 3rem 0;
+            box-shadow: var(--box-shadow-light);
+        }
+        .tip-of-the-day h2 {
+            margin-top: 0;
+            font-size: 1.8rem;
+        }
+        .tip-of-the-day p {
+            font-size: 1.1rem;
+            margin-bottom: 0;
+        }
+        */
+
+        /* Секция "Зал славы" удалена, ее стили (.leaderboard) больше не нужны */
+        /*
+        .leaderboard {
+            margin: 4rem 0;
+            padding: 2.5rem;
+            background-color: #fff;
+            border-radius: var(--border-radius-main);
+            box-shadow: var(--box-shadow-light);
+        }
+        .leaderboard h2 {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--dark-color);
+            margin-bottom: 2rem;
+        }
+        .leaderboard-list {
+            list-style: none;
+            padding: 0;
+        }
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        .leaderboard-item:last-child {
+            border-bottom: none;
+        }
+        .leaderboard-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .leaderboard-score {
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+        .leaderboard-avatar { 
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        */
+        
+        @media (max-width: 992px) { 
+             nav ul li { margin: 0 10px; }
+             nav ul li a { font-size: 1em; }
+        }
+
+        @media (max-width: 768px) { 
+            .features, .category-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            .subtitle { font-size: 1.1rem;}
+            /* Удалены стили для .hero h2, .hero p, так как секция удалена */
+            
+            .stats {
+                gap: 1.5rem;
+                flex-direction: column; 
+                align-items: center;
+            }
+            .stat-item { flex-basis: auto; }
+
+            nav { position: static; } 
+            nav ul { display: flex; flex-direction: column; align-items: center; }
+            nav ul li { margin: 5px 0; }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <div class="header-content">
-      <h1>Тест: Сегіздік санау жүйесі 🧮</h1>
-      <p class="subtitle">Сегіздік жүйені ондық жүйеге түрлендіру</p>
-    </div>
-  </header>
-  <nav>
-    <ul>
-      <li><a href="index.html">🏠 Басты бет</a></li>
-      <li><a href="test.html" class="active">📚 Тест тақырыптары</a></li>
-    </ul>
-  </nav>
-  <div class="container">
-    <div id="quiz-wrapper">
-      <div class="question-counter" id="questionCounter">1/30</div>
-      <div class="progress-container">
-        <div class="progress-bar" id="progressBar"></div>
-      </div>
-      <div id="quiz-container" class="question-block"></div>
-    </div>
-    <div class="result" id="result">
-      <h2 class="result-summary">Сіздің нәтижеңіз:</h2>
-      <div class="result-score" id="resultScore">0%</div>
-      <div class="result-details" id="resultDetails"></div>
-      <p class="result-text" id="resultText"></p>
-      <div id="reviewContainer" class="review-section"></div>
-      <button class="btn btn-secondary restart-btn" id="restartBtn">Тестті қайта бастау</button>
-    </div>
-  </div>
-  <script>
-    function generateOctalNumber(minDigits, maxDigits) {
-      const digits = Math.floor(Math.random() * (maxDigits - minDigits + 1)) + minDigits;
-      let octal = '';
-      for (let i = 0; i < digits; i++) {
-        octal += Math.floor(Math.random() * 8).toString();
-      }
-      if (octal[0] === '0' && digits > 1) {
-        octal = (1 + Math.floor(Math.random() * 7)).toString() + octal.substring(1);
-      }
-      return octal;
-    }
-    function octalToDecimal(octal) {
-      return parseInt(octal, 8);
-    }
-    function generateWrongAnswers(correctAnswer, count) {
-      const wrongAnswers = new Set();
-      const variations = [
-        correctAnswer + 1,
-        correctAnswer - 1,
-        correctAnswer + 2,
-        correctAnswer - 2,
-        Math.floor(correctAnswer * 1.5),
-        Math.floor(correctAnswer * 0.5),
-        correctAnswer + 10,
-        correctAnswer - 10,
-      ];
-      variations.forEach(v => {
-        if (v > 0 && v !== correctAnswer) wrongAnswers.add(v);
-      });
-      while (wrongAnswers.size < count) {
-        const offset = Math.floor(Math.random() * 20) - 10;
-        const newAnswer = correctAnswer + offset;
-        if (newAnswer > 0 && newAnswer !== correctAnswer) wrongAnswers.add(newAnswer);
-      }
-      return Array.from(wrongAnswers).slice(0, count);
-    }
-    function generateQuestions(count) {
-      const questions = [];
-      for (let i = 0; i < count; i++) {
-        const octal = generateOctalNumber(2, 4);
-        const decimal = octalToDecimal(octal);
-        const wrongAnswers = generateWrongAnswers(decimal, 3);
-        const allAnswers = [
-          { text: decimal.toString(), correct: true },
-          { text: wrongAnswers[0].toString(), correct: false },
-          { text: wrongAnswers[1].toString(), correct: false },
-          { text: wrongAnswers[2].toString(), correct: false },
-        ];
-        shuffleArray(allAnswers);
-        questions.push({
-          question: `${octal}₈ сегіздік санын ондық санау жүйесіне аударыңыз`,
-          answers: allAnswers,
-          octal: octal,
-          decimal: decimal
+    <header>
+        <div class="header-content">
+            <h1>Информатика пәнінен тесттер 🚀</h1>
+            <p class="subtitle">Тесттер тапсыра отырып өз біліміңізді жетілдіріңіз!</p>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html" class="active">Басты бет</a></li>
+            <li><a href="test.html" class="active">Тест тақырыптары</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <section class="stats">
+            <div class="stat-item">
+                <div class="stat-icon">📈</div>
+                <div class="stat-number">150+</div>
+                <div class="stat-label">Тесттер саны</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">🎯</div>
+                <div class="stat-number">10+</div>
+                <div class="stat-label">Информатика тақырыптары</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">🧑‍💻</div>
+                <div class="text" style="font-size: 35px; color: #4285f4;"><b>ENT4IT</b></div>
+                <div class="stat-label">Информатиканы үйреніңіз</div>
+            </div>
+        </section>
+        
+        <section class="features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V1zm9.5 3.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 1 .5-.5zm-2 0a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 1 .5-.5zm-2 0a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 1 .5-.5zm-2 0a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 1 .5-.5zm10 3H1.5V14h13V7.5zM2 6.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5v.031c-.002.016-.004.033-.004.051V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6.582c0-.018-.002-.035-.004-.051V6.5z"/>
+                        <path d="M4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5z"/>
+                    </svg>
+                </div>
+                <h3>Интерактивті тесттер</h3>
+                <p>Тесттерді өтіп, дұрыс жауаптардың толық нәтижелерін алыңыз.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
+                         <path d="M10.943 6.002H8.5V3.558a.5.5 0 0 0-1 0V6.002H5.058a.5.5 0 0 0 0 1H7.5v2.443a.5.5 0 0 0 1 0V7.002h2.443a.5.5 0 0 0 0-1z"/>
+                         <path d="M14.502 3.248a.5.5 0 0 0-.496-.49H1.994a.5.5 0 0 0-.49.49L1.01 7.02c-.024.118-.024.238 0 .355l.495 3.273a.5.5 0 0 0 .49.49h12.008a.5.5 0 0 0 .491-.49l.494-3.273a.498.498 0 0 0 0-.355L14.502 3.248zM2.78 6.502l-.318-2.118h11.077l-.317 2.118H2.78zm11.408 1.001l-.317 2.118H2.13l-.317-2.118h11.714z"/>
+                         <path d="M2.5 13.5A1.5 1.5 0 0 0 4 15h8a1.5 1.5 0 0 0 1.5-1.5V12H2.5v1.5z"/>
+                    </svg>
+                </div>
+                <h3>ҰБТ-ға дайындық</h3>
+                <p>Информатика пәні бойынша ҰБТ-ға тиімді дайындық тесттері.</p>
+            </div>
+        </section>
+
+        <section id="tests" class="test-categories">
+            <h2>Жаңа шыңдарды бағындыру үшін тақырыпты таңда! ⛰️</h2>
+            <div class="category-grid">
+                <div class="category-card">
+                    <div class="category-image" style="background-image: url('https://plus.unsplash.com/premium_photo-1664297642487-95b384f25b96?q=80&w=1998&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
+                    <div class="category-info">
+                        <h3>Ақпарат</h3>
+                        <p>Ақпараттық технологиялар мен жүйелердің негіздері.</p>
+                        <div class="category-details">
+                            <span>⭐ Деңгей: Жеңіл</span>
+                            <span>📊 30 сұрақ</span>
+                        </div>
+                        <a href="aqparat.html" class="btn btn-secondary">Бастау!</a>
+                    </div>
+                </div>
+                
+                
+            </div>
+            
+            <div style="text-align: center; margin-top: 3.5rem;">
+                <a href="test.html" class="btn btn-accent">Басқа тесттер!✨</a>
+            </div>
+        </section>
+
+        </div>
+    
+    <footer>
+        <div class="footer-content">
+            <p>© 2024 - <span id="currentYear"></span>ҰБТ Информатика бойынша тесттер.Барлық құқықтар қорғалған.</p>
+            <p>❤️-пен жасалған, болашақ IT мамандарына арналған.</p>
+            <div class="social-icons" style="margin-top: 1rem;">
+                <a href="https://www.instagram.com/sautbekov077/" title="VK" style="color:white; text-decoration:none; margin: 0 10px; font-size: 1.5rem;">INSTA</a>
+                <a href="#" title="Telegram" style="color:white; text-decoration:none; margin: 0 10px; font-size: 1.5rem;">TG</a>
+                <a href="#" title="YouTube" style="color:white; text-decoration:none; margin: 0 10px; font-size: 1.5rem;">YT</a>
+            </div>
+        </div>
+    </footer>
+
+    <a href="#" class="back-to-top" title="Наверх">⬆️</a>
+
+    <script>
+        const backToTopButton = document.querySelector(".back-to-top");
+        window.addEventListener("scroll", () => {
+            if (window.pageYOffset > 200) { 
+                backToTopButton.classList.add("visible");
+            } else {
+                backToTopButton.classList.remove("visible");
+            }
         });
-      }
-      return questions;
-    }
-    let questions = generateQuestions(30);
-    let currentQuestion = 0;
-    let score = 0;
-    let incorrectAnswers = [];
-    const quizWrapper = document.getElementById("quiz-wrapper");
-    const quizContainer = document.getElementById("quiz-container");
-    const resultBlock = document.getElementById("result");
-    const resultScore = document.getElementById("resultScore");
-    const resultDetails = document.getElementById("resultDetails");
-    const resultText = document.getElementById("resultText");
-    const reviewContainer = document.getElementById("reviewContainer");
-    const restartBtn = document.getElementById("restartBtn");
-    const questionCounter = document.getElementById("questionCounter");
-    const progressBar = document.getElementById("progressBar");
-    function shuffleArray(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-    }
-    function showQuestion(index) {
-      const q = questions[index];
-      questionCounter.textContent = `${index + 1}/${questions.length}`;
-      progressBar.style.width = `${((index + 1) / questions.length) * 100}%`;
-      quizContainer.innerHTML = `<p>${q.question}</p><div class="answers"></div>`;
-      const answersBlock = quizContainer.querySelector(".answers");
-      q.answers.forEach(ans => {
-        const btn = document.createElement("button");
-        btn.className = "btn";
-        btn.textContent = ans.text;
-        btn.onclick = () => handleAnswer(ans.correct, q);
-        answersBlock.appendChild(btn);
-      });
-    }
-    function handleAnswer(isCorrect, question) {
-      if (isCorrect) {
-        score++;
-      } else {
-        incorrectAnswers.push(question);
-      }
-      currentQuestion++;
-      if (currentQuestion < questions.length) {
-        showQuestion(currentQuestion);
-      } else {
-        showResult();
-      }
-    }
-    function showResult() {
-      quizWrapper.style.display = "none";
-      resultBlock.style.display = "block";
-      const percent = Math.round((score / questions.length) * 100);
-      let currentPercent = 0;
-      const interval = setInterval(() => {
-        if (currentPercent >= percent) {
-          clearInterval(interval);
-        }
-        resultScore.textContent = currentPercent + "%";
-        currentPercent++;
-      }, 20);
-      resultDetails.textContent = `${questions.length} сұрақтың ${score} дұрыс`;
-      if (percent >= 80) {
-        resultText.textContent = "Керемет! Сіз сегіздік санау жүйесін жақсы білесіз! 🎉";
-        resultScore.style.color = 'var(--secondary-color)';
-      } else if (percent >= 50) {
-        resultText.textContent = "Жақсы! Бірақ әлі көп нәрсені үйрену керек. 👍";
-        resultScore.style.color = 'var(--warning-color)';
-      } else {
-        resultText.textContent = "Қайталап көріңіз, материалды жақсырақ меңгеру керек. 💪";
-        resultScore.style.color = 'var(--accent-color)';
-      }
-      displayIncorrectAnswers();
-    }
-    function displayIncorrectAnswers() {
-      reviewContainer.innerHTML = '';
-      if (incorrectAnswers.length > 0) {
-        const reviewHeader = document.createElement('h3');
-        reviewHeader.textContent = 'Қатемен жұмыс:';
-        reviewContainer.appendChild(reviewHeader);
-        incorrectAnswers.forEach(q => {
-          const correctAnswer = q.answers.find(ans => ans.correct).text;
-          const questionDiv = document.createElement('div');
-          questionDiv.className = 'review-question';
-          questionDiv.innerHTML = `
-            <p>${q.question}</p>
-            <span class="correct-answer">Дұрыс жауап: ${correctAnswer} (${q.octal}₈ = ${q.decimal}₁₀)</span>
-          `;
-          reviewContainer.appendChild(questionDiv);
+        backToTopButton.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: "smooth" });
         });
-      }
-    }
-    restartBtn.addEventListener("click", () => {
-      currentQuestion = 0;
-      score = 0;
-      incorrectAnswers = [];
-      questions = generateQuestions(30);
-      quizWrapper.style.display = "block";
-      resultBlock.style.display = "none";
-      showQuestion(currentQuestion);
-    });
-    showQuestion(currentQuestion);
-  </script>
+
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        document.querySelectorAll('.stat-number').forEach(statNumber => {
+            const finalNumber = parseInt(statNumber.textContent.replace('+', ''));
+            let currentNumber = 0;
+            const increment = Math.ceil(finalNumber / 50); 
+
+            function updateNumber() {
+                currentNumber += increment;
+                if (currentNumber >= finalNumber) {
+                    statNumber.textContent = finalNumber + (statNumber.textContent.includes('+') ? '+' : '');
+                } else {
+                    statNumber.textContent = currentNumber + (statNumber.textContent.includes('+') ? '+' : '');
+                    requestAnimationFrame(updateNumber);
+                }
+            }
+            updateNumber();
+        });
+
+    </script>
 </body>
 </html>
